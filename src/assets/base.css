@@ -1,0 +1,347 @@
+:root {
+  --black: #000000;               /* Черный */
+  --white: #ffffff;              /* Белый */
+  --dark-green: #086637;   /* Темный синий-зеленый */
+  --light-green: #76ba9d;   /* Светлый зеленый */
+  --beige: #f8f5ee;         /* Мягкий бежевый */
+  --red: #ef233c;
+  --dark-red: #97051D;
+  --light-greeen:rgb(242, 251, 224);
+  --indigo: #0002AC; /* синий */
+  --indigo_dark: #01004C; /* темный синий */
+  --violet: #640fce; /* фиолетовый */
+  --violet_light: #C2B6FE; /* фиолетовый */
+  --yellow: #FFA509; /* жёлтый */
+  --orange: #FF7C00; /* оранжевый */
+}
+
+body {
+  min-height: 100vh;
+  color: var(--indigo_dark);              /* Используем черный для текста */
+  background: var(--white);
+  transition: color 0.5s, background-color 0.5s;
+  line-height: 1.6;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
+    sans-serif;
+  font-size: 15px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1 {
+  color: var(--indigo); /* для заголовков */
+}
+
+.button {
+  background-color: var(--violet); /* Используем светлый  для кнопок */
+  color: var(--white);                       /* Используем белый для текста на кнопках */
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;                             /* Убираем рамку кнопки */
+  cursor: pointer;                          /* Указатель при наведении */
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: var(--indigo); /* Меняем цвет фона при наведении */
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: normal;
+}
+
+.p-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px; /* Добавляем отступы */
+  border-bottom: 1px solid #ddd; /* Линия разделения между элементами */
+}
+
+.p-name {
+  font-weight: bold; /* Жирный текст для названия */
+  color: var(--indigo); /* Используйте вашу переменную цвета */
+  text-decoration: none; /* Убираем подчеркивание */
+}
+
+.p-name:hover {
+  text-decoration: underline; /* Подчеркивание при наведении */
+}
+
+.p-note {
+  color: #555; /* Цвет для заметки */
+  margin-left: 10px; /* Отступ между именем и заметкой */
+}
+
+.button-group {
+  display: flex; /* Группируем кнопки в ряд */
+  gap: 10px; /* Пробел между кнопками */
+}
+
+.edit-button, .delete-button {
+  background: none; /* Убираем фоновый цвет */
+  border: none; /* Убираем рамку */
+  cursor: pointer; /* Курсор при наведении */
+}
+
+.edit-button:hover, .delete-button:hover {
+  opacity: 0.7; /* Прозрачность при наведении */
+}
+
+.sidebar {
+  padding: 20px; /* Внутренний отступ вокруг содержимого боковой панели */
+  background-color: #fff; /* Фоновый цвет боковой панели - белый */
+  border-radius: 8px; /* Закругление углов боковой панели */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Тень для боковой панели */
+}
+
+.sidebar-title {
+  font-size: 30px; /* Размер шрифта заголовка */
+  margin-bottom: 15px; /* Отступ снизу заголовка */
+  color: #0002AC; /* Цвет текста заголовка - синий */
+}
+
+.confirmation {
+  background-color: rgba(255, 255, 255, 0.9); /* Полупрозрачный белый фон */
+  border: 1px solid #ccc; /* Светлая граница */
+  border-radius: 8px; /* Закругление углов */
+  padding: 20px; /* Внутренний отступ */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Тень для окна подтверждения */
+  position: fixed; /* Фиксированное позиционирование */
+  top: 50%; /* Центрирование по вертикали */
+  left: 50%; /* Центрирование по горизонтали */
+  transform: translate(-50%, -50%); /* Перемещение окна в центр */
+  z-index: 1000; /* Уровень наложения, чтобы окно было поверх других элементов */
+}
+
+.add-button {
+  background: linear-gradient(90deg, #0002AC, #C2B6FE); /* Градиентный фон */
+  color: white; /* Цвет текста - белый */
+  padding: 12px 20px; /* Внутренний отступ */
+  border: none; /* Убираем рамку */
+  border-radius: 5px; /* Закругление углов */
+  cursor: pointer; /* Курсор при наведении - указатель */
+  font-size: 16px; /* Размер шрифта */
+  transition: background 0.3s, transform 0.2s; /* Плавный переход для фона и трансформации */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Тень для кнопки */
+  width: 100%; /* Занимает всю ширину родительского элемента */
+  max-width: 300px; /* Максимальная ширина кнопки */
+  margin-top: 15px; /* Отступ сверху */
+}
+
+.add-button:hover {
+  background: linear-gradient(90deg, #0002AC, #C2B6FE); /* Градиент остается тем же при наведении */
+  transform: translateY(-2px); /* Поднимаем кнопку немного вверх */
+}
+
+.add-button:active {
+  transform: translateY(0); /* Возвращаем кнопку в исходное положение при нажатии */
+}
+
+.confirmation-content {
+  text-align: center; /* Центрируем текст окна подтвержденя */
+}
+
+.confirmation-buttons {
+  margin-top: 15px; /* Отступ сверху */
+  display: flex; /* Используем flexbox для выравнивания кнопок */
+  justify-content: center; /* Центрируем кнопки */
+}
+
+.confirm-button,
+.cancel-button {
+  background-color: #ff4d4d; /* Красный фон для кнопки подтверждения */
+  color: white; /* Цвет текста - белый */
+  border: none; /* Убираем рамку */
+  padding: 15px 30px; /* Внутренний отступ */
+  border-radius: 100px; /* Закругление углов для кнопки */
+  cursor: pointer; /* Курсор при наведении - указатель */
+  font-size: 16px; /* Размер шрифта */
+  transition: background-color 0.3s; /* Плавный переход для фона при наведении */
+  width: 150px; /* Ширина кнопки */
+  height: 40px; /* Высота кнопки */
+  text-align: center; /* Центрируем текст внутри кнопки */
+  margin: 0 10px; /* Отступы между кнопками */
+}
+
+.confirm-button:hover {
+  background-color: #ff1a1a; /* Темнее красный при наведении на кнопку подтверждения */
+}
+
+.cancel-button {
+  background-color: #ccc; /* Светло-серый фон для кнопки отмены */
+  color: black; /* Цвет текста - черный */
+}
+
+.cancel-button:hover {
+  background-color: #b3b3b3; /* Темнее серый при наведении на кнопку отмены */
+}
+
+.styled-table {
+    width: 100%; /* Ширина таблицы - 100% от родительского элемента */
+    border-collapse: collapse; /* Убираем двойные границы между ячейками */
+    margin-top: 20px; /* Отступ сверху */
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 8px; /* Отступы для ячеек */
+  border: 1px solid #ddd; /* Граница для ячеек */
+  text-align: left; /* Выравнивание текста по левому краю */
+}
+
+
+
+
+.styled-table th {
+  background-color: #0002AC; /* Фоновый цвет заголовков - синий */
+  color: #ffffff; /* Цвет текста заголовков - белый */
+  font-weight: bold; /* Жирный шрифт для заголовков */
+
+}
+
+.styled-table tbody tr {
+  transition: background-color 0.3s; /* Плавный переход для фона строк */
+}
+
+.styled-table tbody tr:hover {
+    background-color: #f1f1f1; /* Цвет фона строки при наведении - светло-серый */
+}
+
+.styled-select {
+  width: 100%; /* Занимает всю ширину родительского элемента */
+  padding: 10px; /* Внутренние отступы */
+  border: 1px solid #ccc; /* Цвет рамки */
+  border-radius: 4px; /* Закругление углов */
+  margin-bottom: 20px; /* Отступ снизу после элемента */
+}
+
+
+.modal-overlay {
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 2;
+}
+
+.modal {
+background-color: white;
+padding: 20px;
+border-radius: 10px;
+width: 400px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+label {
+  display: block; /* Делает подпись блочным элементом */
+  margin-bottom: 5px; /* Добавляет отступ снизу */
+  font-weight: bold; /* Делает текст жирным */
+}
+
+input, textarea {
+  width: 100%; /* Задает ширину полей */
+  padding: 8px; /* Добавляет внутренний отступ */
+  margin-bottom: 15px; /* Добавляет отступ снизу */
+  border: 1px solid #ccc; /* Задает рамку */
+  border-radius: 4px; /* Закругляет углы */
+}
+
+
+button {
+background-color: transparent;
+border: none;
+cursor: pointer;
+margin-right: 10px;
+}
+
+button:hover {
+opacity: 0.8;
+}
+.button-group {
+display: flex;
+justify-content: space-between;
+
+}
+
+.button-group button {
+padding: 8px 12px;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+
+}
+
+.button-group button[type="but"] {
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+
+  }
+
+.button-group button[type="submit"] {
+background-color: #4CAF50;
+color: white;
+
+}
+
+.button-group button[type="button"] {
+background-color: #f44336;
+color: white;
+}
+
+.button-group {
+display: flex;
+gap: 10px;
+}
+
+.btn {
+padding: 10px 20px;
+font-size: 16px;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+transition: background-color 0.3s, transform 0.2s;
+width: 100px;
+}
+
+.add-btn {
+background-color: #4CAF50;
+color: white;
+}
+
+.add-btn:hover {
+background-color: #45a049;
+transform: scale(1.05);
+}
+
+.cancel-btn {
+background-color: #f44336;
+color: white;
+}
+
+.cancel-btn:hover {
+background-color: #e53935;
+transform: scale(1.05);
+}
+

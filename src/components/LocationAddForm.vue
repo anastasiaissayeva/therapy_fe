@@ -1,0 +1,76 @@
+<template>
+  <div class="add-item-form" v-if="showForm" >
+      <form @submit.prevent="onAdd">
+          <textarea
+              v-model.lazy.trim="new_name"
+              placeholder="Введите полное название"
+              required
+          ></textarea>
+          <textarea
+              form="EditForm"
+              v-model.lazy.trim="new_short_name"
+              placeholder="Сокращенное название"
+              rows="2" />
+          <textarea
+              v-model.lazy.trim="new_note"
+              placeholder="Введите заметку"
+          ></textarea>
+          <div class="button-group">
+              <button
+                  type="submit"
+                  title="Добавить"
+                  class="btn add-btn"
+              >
+                  Добавить
+              </button>
+              <button
+                  type="button"
+                  title="Отменить"
+                  class="btn cancel-btn"
+                  @click="onCancel"
+              >
+                  Отменить
+              </button>
+          </div>
+      </form>
+  </div>
+</template>
+
+<script>
+ export default{
+      props: {
+          showForm: {
+              type: Boolean,
+              default: true
+          }
+      },
+      data() {
+          return {new_name: '',new_short_name: '',new_note: ''}
+      },
+      methods: {
+          onAdd(){
+              if (this.new_name) {
+                  this.$emit('add_item', { name: this.new_name, short_name: this.new_short_name,note: this.new_note });
+                  this.resetForm();
+              } else {
+                  alert('Пожалуйста, введите название нового вида локализации.');
+              }
+          },
+          onCancel()
+          {
+              this.new_name = '';
+              this.$emit('cancel_add')
+          },
+          resetForm() {
+          this.new_name = '';
+          this.new_short_name = '';
+          this.new_note = ''; // Очищаем поле заметки
+           }
+      }
+  };
+</script>
+
+<style scoped>
+
+
+</style>
