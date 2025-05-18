@@ -59,7 +59,7 @@ export default {
         },
         model_structures: {
             type: Array,
-            required: true
+            
         }
     },
     data() {

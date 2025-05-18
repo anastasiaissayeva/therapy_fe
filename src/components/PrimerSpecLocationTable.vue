@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>Список домашних животных</h1>
+    <input v-model="searchQuery" @input="onSearchChange" placeholder="Поиск..." />
     <table>
       <thead>
         <tr>

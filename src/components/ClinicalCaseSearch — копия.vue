@@ -32,14 +32,6 @@
         </div>
       </div>
 
-      <button @click="toggleAdditionalFilters" >
-        {{ showAdditionalFilters ? 'Скрыть фильтры' : 'Больше фильтров' }}
-      </button>
-
-      <div v-if="showAdditionalFilters">
-
-
-
       <h2 @click="toggleFilter('age')" class="filter-title">
         Возраст <span class="toggle-arrow">{{ isFilterVisible.age ? '▲' : '▼' }}</span>
       </h2>
@@ -217,7 +209,7 @@
           </label>
         </div>
       </div>
-    </div>
+
 
       <button @click="search" class="search-button">Поиск</button>
       </div>
@@ -228,30 +220,23 @@
   <thead>
     <tr>
       <th>Клинический случай</th>
-
+      <th>Источник</th>
+      <th>URL источника</th>
       <th>Параметр</th>
       <th>Значение результата</th>
       <th>Нижнее значение</th>
       <th>Верхнее значение</th>
       <th>Структура модели</th>
-      <th>Источник</th>
-      <th>URL источника</th>
     </tr>
   </thead>
   <tbody>
     <tr v-for="ClinicalCase in clinicalCases" :key="ClinicalCase.id">
+      <td>{{ ClinicalCase.сlinical_сase_text }}</td>
+      <td>{{ ClinicalCase.datasets_source_name }}</td>
       <td>
-      <div class="card-content">
-        <p><strong>Тип лучевой терапии:</strong> {{ ClinicalCase.name_radiation_therapy_type }}</p>
-        <p><strong>Локализация:</strong> {{ ClinicalCase.text_location }}</p>
-        <p><strong>Гистология:</strong> {{ ClinicalCase.name_histology }}</p>
-        <p><strong>Количество:</strong> {{ ClinicalCase.quantity }}</p>
-        <p><strong>Осложнение:</strong> {{ ClinicalCase.name_complication }}</p>
-        <p><strong>Количество фракций:</strong> {{ ClinicalCase.number_of_fractions }}</p>
-        <p><strong>Длительность лечения:</strong> {{ ClinicalCase.treatment_duration }}</p>
-      </div>
-    </td>
-
+        <a v-if="ClinicalCase.datasets_source_url" :href="ClinicalCase.datasets_source_url" target="_blank" rel="noopener noreferrer">
+          {{ ClinicalCase.datasets_source_url }}
+        </a></td>
       <td>
         <ul>
           <li v-for="modelStructure in ClinicalCase.datasets_result_model_structure_parameter" :key="modelStructure">{{ modelStructure }}</li>
@@ -278,11 +263,6 @@
           <li v-for="modelStructure in ClinicalCase.datasets_result_model_structure_name" :key="modelStructure">{{ modelStructure }}</li>
         </ul>
       </td>
-      <td>{{ ClinicalCase.datasets_source_name }}</td>
-      <td>
-        <a v-if="ClinicalCase.datasets_source_url" :href="ClinicalCase.datasets_source_url" target="_blank" rel="noopener noreferrer">
-          {{ ClinicalCase.datasets_source_url }}
-        </a></td>
 
     </tr>
   </tbody>
@@ -295,7 +275,6 @@
 export default {
   data() {
     return {
-      showAdditionalFilters: false,
       clinicalCases: [],
 
       selectedLocations: [],
@@ -406,78 +385,6 @@ export default {
     toggleFilter(filter) {
       this.isFilterVisible[filter] = !this.isFilterVisible[filter];
     },
-    toggleAdditionalFilters() {
-      this.showAdditionalFilters = !this.showAdditionalFilters; // Переключение видимости
-    },
-
-
-    async fetchRadiationTherapyTypeOptions() {
-    try {
-      const clinicalCasesResponse = await this.$http.get("clinical-case/", {
-        headers: { authorization: `Bearer ${localStorage.access_token}` }
-      });
-
-      const radiationTherapieTypesFromCases = clinicalCasesResponse.data.reduce((acc, ClinicalCase) => {
-        const radiationTherapyType = ClinicalCase.radiation_therapy_type;
-        if (radiationTherapyType && !acc.includes(radiationTherapyType)) {
-          acc.push(radiationTherapyType);
-        }
-        return acc;
-      }, []);
-
-      const response = await this.$http.get("radiation-therapy-type/", {
-        headers: { authorization: `Bearer ${localStorage.access_token}` }
-      });
-
-      this.radiationTherapyTypeOptions = response.data.filter(radiationTherapyType => radiationTherapieTypesFromCases.includes(radiationTherapyType.id));
-    } catch (error) {
-      console.error("Ошибка при загрузке опций радиационной терапии:", error);
-    }
-  },
-  async fetchSpecLocationOptions() {
-    try {
-      const clinicalCasesResponse = await this.$http.get("clinical-case/", {
-        headers: { authorization: `Bearer ${localStorage.access_token}` }
-      });
-
-      const specLocationsFromCases = clinicalCasesResponse.data.reduce((acc, ClinicalCase) => {
-        const specLocation = ClinicalCase.spec_location;
-        if (specLocation && !acc.includes(specLocation)) {
-          acc.push(specLocation);
-        }
-        return acc;
-      }, []);
-
-      const response = await this.$http.get("spec-location/", {
-        headers: { authorization: `Bearer ${localStorage.access_token}` }
-      });
-
-      this.specLocationOptions = response.data.filter(specLocation => specLocationsFromCases.includes(specLocation.id));
-    } catch (error) {
-      console.error("Ошибка при загрузке уточненных локализаций:", error);
-    }
-  },
-
-
-
-  async fetchLocationOptions() {
-      try {
-        const response = await this.$http.get("location/", {
-          headers: {
-            authorization: `Bearer ${localStorage.access_token}`
-          }
-        });
-
-        this.locationOptions = response.data;
-      } catch (error) {
-        console.error("Ошибка при загрузке местоположений:", error);
-      }
-    },
-
-
-
-
-
 
 
     async fetchAgeOptions() {
@@ -500,6 +407,32 @@ export default {
         this.ageOptions = ages;
       } catch (error) {
         console.error("Ошибка при загрузке возрастов:", error);
+      }
+    },
+    async fetchLocationOptions() {
+      try {
+        const response = await this.$http.get("location/", {
+          headers: {
+            authorization: `Bearer ${localStorage.access_token}`
+          }
+        });
+
+        this.locationOptions = response.data;
+      } catch (error) {
+        console.error("Ошибка при загрузке местоположений:", error);
+      }
+    },
+    async fetchSpecLocationOptions() {
+      try {
+        const response = await this.$http.get("spec-location/", {
+          headers: {
+            authorization: `Bearer ${localStorage.access_token}`
+          }
+        });
+
+        this.specLocationOptions = response.data;
+      } catch (error) {
+        console.error("Ошибка при загрузке уточненных локализаций:", error);
       }
     },
 
@@ -694,7 +627,29 @@ export default {
     }
   },
 
+  async fetchRadiationTherapyTypeOptions() {
+    try {
+      const clinicalCasesResponse = await this.$http.get("clinical-case/", {
+        headers: { authorization: `Bearer ${localStorage.access_token}` }
+      });
 
+      const radiationTherapieTypesFromCases = clinicalCasesResponse.data.reduce((acc, ClinicalCase) => {
+        const radiationTherapyType = ClinicalCase.radiation_therapy_type;
+        if (radiationTherapyType && !acc.includes(radiationTherapyType)) {
+          acc.push(radiationTherapyType);
+        }
+        return acc;
+      }, []);
+
+      const response = await this.$http.get("radiation-therapy-type/", {
+        headers: { authorization: `Bearer ${localStorage.access_token}` }
+      });
+
+      this.radiationTherapyTypeOptions = response.data.filter(radiationTherapyType => radiationTherapieTypesFromCases.includes(radiationTherapyType.id));
+    } catch (error) {
+      console.error("Ошибка при загрузке опций радиационной терапии:", error);
+    }
+  },
 
   async fetchTumorOptions() {
     try {
@@ -887,18 +842,6 @@ export default {
 
         const params = [];
 
-        if (this.selectedRadiationTherapyTypes.length > 0) {
-          params.push(`radiation_therapy_type=${this.selectedRadiationTherapyTypes.join(',')}`);
-        }
-
-        if (this.selectedLocations.length > 0) {
-          params.push(`location=${this.selectedLocations.join(',')}`);
-        }
-
-        if (this.selectedSpecLocations.length > 0) {
-          params.push(`spec_location=${this.selectedSpecLocations.join(',')}`);
-        }
-
         if (this.selectedAges.length > 0) {
           params.push(`age=${this.selectedAges.join(',')}`);
         }
@@ -947,7 +890,9 @@ export default {
           params.push(`risk_group=${this.selectedRiskGroups.join(',')}`);
         }
 
-
+        if (this.selectedRadiationTherapyTypes.length > 0) {
+          params.push(`radiation_therapy_type=${this.selectedRadiationTherapyTypes.join(',')}`);
+        }
 
         if (this.selectedTumors.length > 0) {
           params.push(`tumor=${this.selectedTumors.join(',')}`);
@@ -981,7 +926,13 @@ export default {
         //   params.push(`treatment_duration=${this.selectedTreatmentDuration}`);
         // }
 
+        if (this.selectedLocations.length > 0) {
+          params.push(`location=${this.selectedLocations.join(',')}`);
+        }
 
+        if (this.selectedSpecLocations.length > 0) {
+          params.push(`spec_location=${this.selectedSpecLocations.join(',')}`);
+        }
 
         const queryString = params.length > 0 ? `?${params.join('&')}` : '';
 
@@ -1070,40 +1021,6 @@ export default {
     color:  var(--black); /* Цвет заголовков */
     font-size: 100%;
   }
-  .styled-table th:nth-child(1),
-  .styled-table td:nth-child(1) {
-    width: 65%;
-  }
 
-  .styled-table th:nth-child(2),
-  .styled-table td:nth-child(2) {
-    width: 5%;
-  }
-
-  .styled-table th:nth-child(3),
-  .styled-table td:nth-child(3) {
-    width: 5%;
-  }
-
-  .styled-table th:nth-child(4),
-  .styled-table td:nth-child(4) {
-    width: 5%;
-  }
-  .styled-table th:nth-child(5),
-  .styled-table td:nth-child(5) {
-    width: 5%;
-  }
-  .styled-table th:nth-child(6),
-  .styled-table td:nth-child(6) {
-    width: 5%;
-  }
-  .styled-table th:nth-child(7),
-  .styled-table td:nth-child(7) {
-    width: 5%;
-  }
-  .styled-table th:nth-child(8),
-  .styled-table td:nth-child(8) {
-    width: 5%;
-  }
 
 </style>

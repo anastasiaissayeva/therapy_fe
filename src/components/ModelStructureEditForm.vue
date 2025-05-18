@@ -5,7 +5,7 @@
       <div class="modal">
         <h2>Редактировать элемент</h2>
         <form id="EditForm">
-          <select class="styled-select" v-model="selected_model_name" required>
+          <select class="styled-select" v-model="selected_model_name" >
               <option v-for="model_name in model_names" :key="model_name.id" :value="model_name.id">
                   {{ model_name.name }}
               </option>
@@ -56,7 +56,7 @@ export default {
     },
     model_names: {
       type: Array,
-      required: true
+      
     },
     parameters: {
       type: Array,

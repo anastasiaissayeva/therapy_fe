@@ -6,7 +6,7 @@
     <form @submit.prevent="onAdd">
 
 
-          <select class="styled-select" v-model="selected_result" >
+          <select class="styled-select" v-model="selected_result" required>
               <option v-for="result in results" :key="result.id" :value="result.id">
                   {{ result.name_model_structure }}{{ result.name_parameter }}={{ result.value }}({{ result.lower_value }}-{{ result.upper_value }}){{ result.name_unit }}
               </option>

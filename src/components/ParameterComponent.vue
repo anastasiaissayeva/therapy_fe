@@ -49,11 +49,11 @@ export default {
     },
     full_name: {
       type: String,
-      required: true,
+
     },
     name_unit: {
       type: String,
-      required: true,
+      
     },
     note: {
       type: String,

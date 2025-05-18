@@ -1,7 +1,11 @@
 <template>
+
+    <!--<RouterLink :to="'/petsbreedslist/' + id" class="p-name">{{ name }}</RouterLink> -->
     <tr v-if='!edit_mode'>
-      <td>{{ short_name }}</td>
-      <td>{{ name }}</td>
+
+      <td>{{ name_result }}</td>
+      <td>{{ name_сlinical_сase }}</td>
+      <td>{{ name_source }}</td>
       <td>{{ note }}</td>
       <td>
       <div class="button-group">
@@ -18,10 +22,11 @@
     </td>
     </tr>
 
-  <tumor-edit-form v-else
+  <data-set-edit-form v-else
   :id='this.id'
-  :short_name="this.short_name"
-  :name="this.name"
+  :name_result="this.name_result"
+  :name_сlinical_сase="this.name_сlinical_сase"
+  :name_source="this.name_source"
   :note="this.note"
   @edit_item="edit_item"
   @cancel_edit="cancel_edit" />
@@ -29,23 +34,27 @@
 
 
 <script>
-import TumorEditForm from './TumorEditForm.vue';
+import DataSetEditForm from './DataSetEditForm.vue';
 export default {
   components: {
-    TumorEditForm
+    DataSetEditForm
   },
   props: {
     id: {
       type: Number,
       required: true,
     },
-    short_name: {
+    name_result: {
       type: String,
       required: true,
     },
-    name: {
+    name_сlinical_сase: {
       type: String,
-      
+
+    },
+    name_source: {
+      type: String,
+
     },
     note: {
       type: String,
@@ -60,8 +69,8 @@ export default {
     onEdit() {
       this.edit_mode = true;
     },
-    edit_item(id,short_name, name) {
-      this.$emit("edit_item", id, short_name,name);
+    edit_item(id, name_result,name_сlinical_сase,name_source,note) {
+      this.$emit("edit_item", id,name_result,name_сlinical_сase,name_source,note);
       this.edit_mode = false;
     },
     cancel_edit() {

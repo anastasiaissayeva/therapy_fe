@@ -23,6 +23,7 @@ import ResultTable from '@/components/ResultTable.vue'
 import SourceTable from '@/components/SourceTable.vue'
 import DataSetTable from '@/components/DataSetTable.vue'
 import ClinicalCaseSearch from '@/components/ClinicalCaseSearch.vue'
+import DataSetsTable from '@/components/DataSetsTable.vue'
 
 // import SpecLocationDetails from '@/components/SpecLocationDetails.vue'
 
@@ -156,11 +157,20 @@ const router = createRouter({
 
     },
     {
+      path: '/data-sets',
+      name: 'data-sets',
+      components: {
+        data_base:DataSetsTable
+      }
+    },
+
+    {
       path: '/ClinicalCaseSearch',
       name: 'ClinicalCaseSearch',
       components: {
         additional: ClinicalCaseSearch
-      }
+    }
+
 
     },
     // {

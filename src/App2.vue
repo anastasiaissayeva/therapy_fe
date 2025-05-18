@@ -5,7 +5,7 @@
         <router-link :to="{ name: 'home' }">
           <img alt="ЛУЧЕВАЯ ТЕРАПИЯ" src="@/assets/1.png" class="project-image" />
         </router-link>
-        <h1>Веб-приложение для работы с базой данных рад. параметров </h1>
+        <h1>ЛУЧЕВАЯ ТЕРАПИЯ</h1>
       </div>
       <nav class="nav">
         <router-link to="#" class="nav-link" v-if="isLoggedIn" @click.prevent="scrollToRadTypes">О видах
@@ -36,54 +36,40 @@
     </div>
   </div>
 
-  <router-link v-if="isLoggedIn" to="/ClinicalCaseSearch" ><h1>Поиск клинических
-    случаев</h1></router-link>
+  <router-link v-if="isLoggedIn" to="/ClinicalCaseSearch" class="nav-link clinical-case-search-link">Поиск клинических
+    случаев</router-link>
   <div class="container-nav" v-if="isLoggedIn">
     <div class="content">
       <router-view name="additional" />
     </div>
   </div>
 
-
-  <!-- <router-link v-if="isLoggedIn" to="/data-sets" >Набор данных</router-link>
-  <div class="container-nav" v-if="isLoggedIn">
-    <div class="content">
-      <router-view name="data_base" />
-    </div>
-  </div> -->
-
-
   <div class="container-nav">
 
     <nav class="nav-table" v-if="isLoggedIn">
       <h1>Редактор БД</h1>
-      <router-link to="/clinical-case" class="nav-link"><h2>Клинические случаи</h2></router-link>
-      <router-link to="/data-set" class="nav-link"><h2>Набор данных</h2></router-link>
-      <router-link to="/result" class="nav-link"><h2>Результаты измерений</h2></router-link>
-
-      <router-link id="rad-type-nav" to="/radtypelist" class="nav-link"><h5>Виды лучевой терапии</h5></router-link>
-      <router-link to="/locationlist" class="nav-link"><h5>Виды локализаций</h5></router-link>
-      <router-link to="/speclocationlist" class="nav-link"><h5>Уточненные локализации</h5></router-link>
-      <router-link to="/diagnosis" class="nav-link"><h5>Диагнозы МКБ-10</h5></router-link>
-      <router-link to="/stage" class="nav-link"><h5>Стадии</h5></router-link>
-      <router-link to="/riskgroup" class="nav-link"><h5>Группы риска</h5></router-link>
-      <router-link to="/complication" class="nav-link"><h5>Осложнения</h5></router-link>
-      <router-link to="/histology" class="nav-link"><h5>Гистологическая классификация</h5></router-link>
-      <router-link to="/grade" class="nav-link"><h5>Классификация по степени злокачественности</h5></router-link>
-      <router-link to="/tumor" class="nav-link"><h5>Tumor(Опухоль)</h5></router-link>
-      <router-link to="/node" class="nav-link"><h5>Node(Узел)</h5></router-link>
-      <router-link to="/metastasis" class="nav-link"><h5>Metastasis(Метастазы)</h5></router-link>
-      <router-link to="/unit" class="nav-link"><h5>Единицы измерения</h5></router-link>
-      <router-link to="/parameter" class="nav-link"><h5>Параметры</h5></router-link>
-      <router-link to="/model-name" class="nav-link"><h5>Модели</h5></router-link>
-      <router-link to="/model-structure" class="nav-link"><h5>Структуры моделей</h5></router-link>
-
+      <router-link id="rad-type-nav" to="/radtypelist" class="nav-link">Виды лучевой терапии</router-link>
+      <router-link to="/locationlist" class="nav-link">Виды локализаций</router-link>
+      <router-link to="/speclocationlist" class="nav-link">Уточненные локализации</router-link>
+      <router-link to="/diagnosis" class="nav-link">Диагнозы МКБ-10</router-link>
+      <router-link to="/stage" class="nav-link">Стадии</router-link>
+      <router-link to="/riskgroup" class="nav-link">Группы риска</router-link>
+      <router-link to="/complication" class="nav-link">Осложнения</router-link>
+      <router-link to="/histology" class="nav-link">Гистологическая классификация</router-link>
+      <router-link to="/grade" class="nav-link">Классификация по степени злокачественности</router-link>
+      <router-link to="/tumor" class="nav-link">Tumor(Опухоль)</router-link>
+      <router-link to="/node" class="nav-link">Node(Узел)</router-link>
+      <router-link to="/metastasis" class="nav-link">Metastasis(Метастазы)</router-link>
+      <router-link to="/clinical-case" class="nav-link">Клинические случаи</router-link>
+      <router-link to="/unit" class="nav-link">Единицы измерения</router-link>
+      <router-link to="/parameter" class="nav-link">Параметры</router-link>
+      <router-link to="/model-name" class="nav-link">Модели</router-link>
+      <router-link to="/model-structure" class="nav-link">Структуры моделей</router-link>
+      <router-link to="/result" class="nav-link">Результаты измерений</router-link>
       <router-link to="/source" class="nav-link">Источники</router-link>
-
+      <router-link to="/data-set" class="nav-link">Набор данных</router-link>
     </nav>
-    <div class="content">
-      <router-view />
-    </div>
+    
   </div>
 
 </template>

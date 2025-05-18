@@ -44,7 +44,7 @@ export default {
     },
     name_model_name: {
       type: String,
-      required: true,
+      
     },
     name_parameter: {
       type: String,

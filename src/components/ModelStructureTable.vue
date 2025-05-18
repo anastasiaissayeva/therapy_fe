@@ -3,13 +3,13 @@
       <h1 class="sidebar-title">
         Структуры моделей
       </h1>
-
+      <input v-model="searchQuery" @input="onSearchChange" placeholder="Поиск..." />
       <table class="styled-table" >
         <thead>
           <tr>
-              <th>Модель</th>
-              <th>Параметр</th>
-              <th>Заметка</th>
+              <th  @click="sort('model_name')">Модель</th>
+              <th @click="sort('parameter')">Параметр</th>
+              <th @click="sort('note')">Заметка</th>
               <th>Действия</th>
           </tr>
         </thead>
@@ -73,6 +73,7 @@ export default {
           showAddForm: false,
           model_names: [],
           parameters: [],
+          searchQuery: '',sortKey: '',sortOrder: 'asc',
       };
   },
   methods: {
@@ -100,7 +101,15 @@ export default {
       await this.getModelNames();
       await this.getParameters();
       try {
-              const response = await this.$http.get("model-structure/",
+        const params = new URLSearchParams();
+
+        if (this.searchQuery) {
+            params.append('search', this.searchQuery);
+          }
+          if (this.sortKey) {
+            params.append('ordering', (this.sortOrder === 'desc' ? '-' : '') + this.sortKey);
+          }
+        const response = await this.$http.get(`model-structure/?${params.toString()}`,
                   {headers: {authorization: `Bearer ${localStorage.access_token}`,},},
               );
               this.items = response.data;
@@ -110,6 +119,18 @@ export default {
               console.error("Ошибка при загрузке данных:", error);
           }
       },
+      onSearchChange() {
+        this.getData();
+      },
+      sort(key) {
+          if (this.sortKey === key) {
+            this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+          } else {
+            this.sortKey = key;
+            this.sortOrder = 'asc';
+          }
+          this.getData();
+        },
 
       async editData(id,name_model_name_id,name_parameter_id, note) {
           try {

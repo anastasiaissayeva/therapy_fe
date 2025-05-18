@@ -3,13 +3,13 @@
       <h1 class="sidebar-title">
           Уточненные локализации
       </h1>
-
+      <input v-model="searchQuery" @input="onSearchChange" placeholder="Поиск..." />
       <table class="styled-table" >
         <thead>
           <tr>
-              <th>Название</th>
-              <th>Локализация</th>
-              <th>Заметка</th>
+              <th @click="sort('name')">Название</th>
+              <th @click="sort('location')">Локализация</th>
+              <th @click="sort('note')">Заметка</th>
               <th>Действия</th>
           </tr>
         </thead>
@@ -70,6 +70,9 @@ export default {
           deletedItem: null,
           showAddForm: false,
           locations: [],
+          searchQuery: '',
+          sortKey: '',
+          sortOrder: 'asc',
       };
   },
   methods: {
@@ -87,7 +90,16 @@ export default {
     async getData() {
       await this.getLocations();
       try {
-              const response = await this.$http.get("spec-location/",
+        const params = new URLSearchParams();
+
+        if (this.searchQuery) {
+            params.append('search', this.searchQuery);
+          }
+          if (this.sortKey) {
+            params.append('ordering', (this.sortOrder === 'desc' ? '-' : '') + this.sortKey);
+          }
+
+            const response = await this.$http.get(`spec-location/?${params.toString()}`,
                   {headers: {authorization: `Bearer ${localStorage.access_token}`,},},
               );
               this.items = response.data;
@@ -97,7 +109,18 @@ export default {
               console.error("Ошибка при загрузке данных:", error);
           }
       },
-
+      onSearchChange() {
+        this.getData();
+      },
+      sort(key) {
+          if (this.sortKey === key) {
+            this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+          } else {
+            this.sortKey = key;
+            this.sortOrder = 'asc';
+          }
+          this.getData();
+        },
       async editData(id, name, name_location_id, note) {
           try {
               const response = await this.$http.put(`spec-location/${id}/`, {
@@ -232,6 +255,6 @@ export default {
 
 .styled-table th:nth-child(4),
 .styled-table td:nth-child(4) {
-  width: 10%; 
+  width: 10%;
 }
 </style>

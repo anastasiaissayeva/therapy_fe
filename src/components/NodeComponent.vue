@@ -45,7 +45,7 @@ export default {
     },
     name: {
       type: String,
-      required: true,
+      
     },
     note: {
       type: String,

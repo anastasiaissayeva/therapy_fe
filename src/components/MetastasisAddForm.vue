@@ -4,8 +4,8 @@
       <div class="modal">
         <h2>Создать новый элемент</h2>
         <form @submit.prevent="onAdd">
-          <textarea v-model.lazy.trim="new_short_name" placeholder="Введите сокращенное название" required></textarea>
-          <textarea v-model.lazy.trim="new_name" placeholder="Введите полное название" required></textarea>
+          <textarea v-model.lazy.trim="new_short_name" placeholder="Введите сокращенное название" ></textarea>
+          <textarea v-model.lazy.trim="new_name" placeholder="Введите полное название" ></textarea>
           <textarea v-model.lazy.trim="new_note" placeholder="Введите описание"></textarea>
           <div class="button-group">
             <button type="submit" title="Добавить" class="btn add-btn">

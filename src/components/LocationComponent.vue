@@ -1,29 +1,24 @@
 <template>
-  <li v-if='!edit_mode' class="p-item">
-       <!--<RouterLink :to="'/petsbreedslist/' + id" class="p-name">{{ name }}</RouterLink> -->
-      <span class="p-name">{{ name }}</span>
-      <span class="p-note">{{ short_name }}</span>
-      <span class="p-note">{{ note }}</span>
-
+  <tr v-if='!edit_mode'>
+      <td>{{ name }}</td>
+      <td>{{ short_name }}</td>
+      <td>{{ note }}</td>
+      <td>
       <div class="button-group">
-          <button
-              type="but"
-              title="Редактировать"
-              @click="onEdit"
-              class="edit-button"
-          >
-              <img alt="Редактировать" class="logo" src="@/assets/free-icon-pencil-650143.png" width="20" height="20" />
-          </button>
-          <button
-              type="but"
-              title="Удалить"
-              @click="onDelete"
-              class="delete-button"
-          >
-              <img alt="Удалить" class="logo" src="@/assets/free-icon-delete-1214428.png" width="20" height="20" />
-          </button>
+
+        <button type="but" title="Редактировать" @click="onEdit" class="edit-button">
+          <img alt="Редактировать" class="logo" src="@/assets/free-icon-pencil-650143.png" width="20" height="20" />
+        </button>
+
+        <button type="but" title="Удалить" @click="onDelete" class="delete-button">
+          <img alt="Удалить" class="logo" src="@/assets/free-icon-delete-1214428.png" width="20" height="20" />
+        </button>
+
       </div>
-  </li>
+    </td>
+    </tr>
+
+  
   <location-edit-form v-else
       :id='this.id'
       :name="this.name"
@@ -52,7 +47,7 @@
           },
           short_name:{
               type: String,
-              
+
           },
           note:{
               type: String,

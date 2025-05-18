@@ -3,14 +3,14 @@
       <h1 class="sidebar-title">
         Набор данных
       </h1>
-
+      <input v-model="searchQuery" @input="onSearchChange" placeholder="Поиск...(название модели,название источника)" />
       <table class="styled-table" >
         <thead>
           <tr>
-              <th>Результат</th>
-              <th>Клинический случай</th>
-              <th>Источник</th>
-              <th>Заметка</th>
+              <th @click="sort('result')">Результат</th>
+              <th @click="sort('сlinical_сase')">Клинический случай</th>
+              <th @click="sort('source')">Источник</th>
+              <th @click="sort('note')">Заметка</th>
               <th>Действия</th>
           </tr>
         </thead>
@@ -79,11 +79,14 @@ export default {
           results: [],
           сlinical_сases: [],
           sources: [],
+          searchQuery: '',sortKey: '',sortOrder: 'asc',
       };
   },
   methods: {
     async getResults() {
         try {
+
+
             const response = await this.$http.get("result/", {
                 headers: { authorization: `Bearer ${localStorage.access_token}` },
             });
@@ -117,7 +120,15 @@ export default {
       await this.getClinical_сases();
       await this.getSources();
       try {
-              const response = await this.$http.get("dataset/",
+        const params = new URLSearchParams();
+
+        if (this.searchQuery) {
+            params.append('search', this.searchQuery);
+          }
+          if (this.sortKey) {
+            params.append('ordering', (this.sortOrder === 'desc' ? '-' : '') + this.sortKey);
+          }
+        const response = await this.$http.get(`dataset/?${params.toString()}`,
                   {headers: {authorization: `Bearer ${localStorage.access_token}`,},},
               );
               this.items = response.data;
@@ -127,6 +138,18 @@ export default {
               console.error("Ошибка при загрузке данных:", error);
           }
       },
+      onSearchChange() {
+        this.getData();
+      },
+      sort(key) {
+          if (this.sortKey === key) {
+            this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+          } else {
+            this.sortKey = key;
+            this.sortOrder = 'asc';
+          }
+          this.getData();
+        },
 
       async editData(id,name_result_id,name_сlinical_сase_id,name_source_id, note) {
           try {

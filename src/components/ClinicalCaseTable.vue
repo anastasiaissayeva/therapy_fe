@@ -23,7 +23,7 @@
     </div>
 
     <button @click="toggleAddForm" class="add-button">
-      Добавить вид локализаций
+      Добавить
     </button>
 
     <clinical-case-add-form v-if="showAddForm" @add_item="addItem" @cancel_add="cancelAdd"

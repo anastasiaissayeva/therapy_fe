@@ -6,7 +6,7 @@
         <form id="EditForm">
           <textarea form="EditForm" v-model.lazy.trim="new_code" placeholder="Код" rows="1" required/>
 
-          <textarea form="EditForm" v-model.lazy.trim="new_description" placeholder="Описание" rows="2" required/>
+          <textarea form="EditForm" v-model.lazy.trim="new_description" placeholder="Описание" rows="2" />
 
           <textarea form="EditForm" v-model.lazy.trim="new_note" placeholder="Заметка" rows="4" />
         </form>
@@ -43,7 +43,7 @@ export default {
     },
     description: {
       type: String,
-      required: true,
+      
     },
     note: {
       type: String,

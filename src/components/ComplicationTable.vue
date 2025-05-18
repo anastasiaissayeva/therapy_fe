@@ -3,14 +3,14 @@
       <h1 class="sidebar-title">
         Осложнения
       </h1>
-
+      <input v-model="searchQuery" @input="onSearchChange" placeholder="Поиск..." />
       <table class="styled-table" >
         <thead>
           <tr>
-              <th>Название осложнения</th>
-              <th>Альтернативное название осложнения</th>
-              <th>Уточненная локализация</th>
-              <th>Доп. информация</th>
+              <th @click="sort('name')">Название осложнения</th>
+              <th @click="sort('alt_name')">Альтернативное название осложнения</th>
+              <th @click="sort('spec_location')">Уточненная локализация</th>
+              <th @click="sort('note')">Доп. информация</th>
               <th>Действия</th>
           </tr>
         </thead>
@@ -72,6 +72,7 @@ export default {
           deletedItem: null,
           showAddForm: false,
           locations: [],
+          searchQuery: '',sortKey: '',sortOrder: 'asc',
       };
   },
   methods: {
@@ -89,7 +90,15 @@ export default {
     async getData() {
       await this.getLocations();
       try {
-              const response = await this.$http.get("complication/",
+        const params = new URLSearchParams();
+
+        if (this.searchQuery) {
+            params.append('search', this.searchQuery);
+          }
+          if (this.sortKey) {
+            params.append('ordering', (this.sortOrder === 'desc' ? '-' : '') + this.sortKey);
+          }
+        const response = await this.$http.get(`complication/?${params.toString()}`,
                   {headers: {authorization: `Bearer ${localStorage.access_token}`,},},
               );
               this.items = response.data;
@@ -99,6 +108,18 @@ export default {
               console.error("Ошибка при загрузке данных:", error);
           }
       },
+      onSearchChange() {
+        this.getData();
+      },
+      sort(key) {
+          if (this.sortKey === key) {
+            this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+          } else {
+            this.sortKey = key;
+            this.sortOrder = 'asc';
+          }
+          this.getData();
+        },
 
       async editData(id, name, alt_name, spec_location_id, note) {
         try {

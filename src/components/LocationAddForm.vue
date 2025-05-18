@@ -1,6 +1,9 @@
 <template>
   <div class="add-item-form" v-if="showForm" >
-      <form @submit.prevent="onAdd">
+    <div class="modal-overlay">
+      <div class="modal">
+        <h2>Создать новый элемент</h2>
+    <form @submit.prevent="onAdd">
           <textarea
               v-model.lazy.trim="new_name"
               placeholder="Введите полное название"
@@ -33,6 +36,8 @@
               </button>
           </div>
       </form>
+    </div>
+  </div>
   </div>
 </template>
 

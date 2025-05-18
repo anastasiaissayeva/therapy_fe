@@ -240,7 +240,10 @@
   </thead>
   <tbody>
     <tr v-for="ClinicalCase in clinicalCases" :key="ClinicalCase.id">
-      <td>
+      <!-- <td>{{ ClinicalCase.сlinical_сase_text }}
+
+      </td> -->
+    <td>
       <div class="card-content">
         <p><strong>Тип лучевой терапии:</strong> {{ ClinicalCase.name_radiation_therapy_type }}</p>
         <p><strong>Локализация:</strong> {{ ClinicalCase.text_location }}</p>
@@ -251,7 +254,6 @@
         <p><strong>Длительность лечения:</strong> {{ ClinicalCase.treatment_duration }}</p>
       </div>
     </td>
-
       <td>
         <ul>
           <li v-for="modelStructure in ClinicalCase.datasets_result_model_structure_parameter" :key="modelStructure">{{ modelStructure }}</li>
@@ -1070,40 +1072,6 @@ export default {
     color:  var(--black); /* Цвет заголовков */
     font-size: 100%;
   }
-  .styled-table th:nth-child(1),
-  .styled-table td:nth-child(1) {
-    width: 65%;
-  }
 
-  .styled-table th:nth-child(2),
-  .styled-table td:nth-child(2) {
-    width: 5%;
-  }
-
-  .styled-table th:nth-child(3),
-  .styled-table td:nth-child(3) {
-    width: 5%;
-  }
-
-  .styled-table th:nth-child(4),
-  .styled-table td:nth-child(4) {
-    width: 5%;
-  }
-  .styled-table th:nth-child(5),
-  .styled-table td:nth-child(5) {
-    width: 5%;
-  }
-  .styled-table th:nth-child(6),
-  .styled-table td:nth-child(6) {
-    width: 5%;
-  }
-  .styled-table th:nth-child(7),
-  .styled-table td:nth-child(7) {
-    width: 5%;
-  }
-  .styled-table th:nth-child(8),
-  .styled-table td:nth-child(8) {
-    width: 5%;
-  }
 
 </style>

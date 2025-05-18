@@ -1,23 +1,23 @@
 :root {
-  --black: #000000;               /* Черный */
-  --white: #ffffff;              /* Белый */
-  --dark-green: #086637;   /* Темный синий-зеленый */
-  --light-green: #76ba9d;   /* Светлый зеленый */
-  --beige: #f8f5ee;         /* Мягкий бежевый */
-  --red: #ef233c;
+  --black: #060606;
+  --white: #ffffff;
+  --dark-green: #97051D;
+  --light-green: #76ba9d;
+  --fon: #F5F5F5;
+  --red: #CA182E;
   --dark-red: #97051D;
   --light-greeen:rgb(242, 251, 224);
-  --indigo: #0002AC; /* синий */
-  --indigo_dark: #01004C; /* темный синий */
-  --violet: #640fce; /* фиолетовый */
-  --violet_light: #C2B6FE; /* фиолетовый */
-  --yellow: #FFA509; /* жёлтый */
-  --orange: #FF7C00; /* оранжевый */
+  --indigo: var(--black);
+  --green: #CA182E;
+  --violet: #640fce;
+  --violet_light: #C2B6FE;
+  --yellow: #FFA509;
+  --orange: #FF7C00;
 }
 
 body {
   min-height: 100vh;
-  color: var(--indigo_dark);              /* Используем черный для текста */
+  color: var(--black);
   background: var(--white);
   transition: color 0.5s, background-color 0.5s;
   line-height: 1.6;
@@ -41,12 +41,12 @@ body {
 }
 
 h1 {
-  color: var(--indigo); /* для заголовков */
+  color: var(--green); /* для заголовков */
 }
 
 .button {
-  background-color: var(--violet); /* Используем светлый  для кнопок */
-  color: var(--white);                       /* Используем белый для текста на кнопках */
+  background-color: var(--light-greeen);
+  color: var(--white);                       /* для текста на кнопках */
   padding: 10px 20px;
   border-radius: 5px;
   border: none;                             /* Убираем рамку кнопки */
@@ -55,7 +55,7 @@ h1 {
 }
 
 .button:hover {
-  background-color: var(--indigo); /* Меняем цвет фона при наведении */
+  background-color: var(--green); /* Меняем цвет фона при наведении */
 }
 
 *,
@@ -76,7 +76,7 @@ h1 {
 
 .p-name {
   font-weight: bold; /* Жирный текст для названия */
-  color: var(--indigo); /* Используйте вашу переменную цвета */
+  color: var(--green);
   text-decoration: none; /* Убираем подчеркивание */
 }
 
@@ -114,7 +114,7 @@ h1 {
 .sidebar-title {
   font-size: 30px; /* Размер шрифта заголовка */
   margin-bottom: 15px; /* Отступ снизу заголовка */
-  color: #0002AC; /* Цвет текста заголовка - синий */
+  color: var(--green); /* Цвет текста заголовка*/
 }
 
 .confirmation {
@@ -131,7 +131,7 @@ h1 {
 }
 
 .add-button {
-  background: linear-gradient(90deg, #0002AC, #C2B6FE); /* Градиентный фон */
+  background: linear-gradient(90deg, var(--dark-green), var(--green)); /* Градиентный фон */
   color: white; /* Цвет текста - белый */
   padding: 12px 20px; /* Внутренний отступ */
   border: none; /* Убираем рамку */
@@ -146,7 +146,6 @@ h1 {
 }
 
 .add-button:hover {
-  background: linear-gradient(90deg, #0002AC, #C2B6FE); /* Градиент остается тем же при наведении */
   transform: translateY(-2px); /* Поднимаем кнопку немного вверх */
 }
 
@@ -210,7 +209,7 @@ h1 {
 
 
 .styled-table th {
-  background-color: #0002AC; /* Фоновый цвет заголовков - синий */
+  background-color: var(--green); /* Фоновый цвет заголовков */
   color: #ffffff; /* Цвет текста заголовков - белый */
   font-weight: bold; /* Жирный шрифт для заголовков */
 
@@ -234,24 +233,24 @@ h1 {
 
 
 .modal-overlay {
-position: fixed;
-top: 0;
-left: 0;
-right: 0;
-bottom: 0;
-background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
-display: flex;
-justify-content: center;
-align-items: center;
-z-index: 2;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
 }
 
 .modal {
-background-color: white;
-padding: 20px;
-border-radius: 10px;
-width: 400px;
-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 label {
@@ -270,27 +269,25 @@ input, textarea {
 
 
 button {
-background-color: transparent;
-border: none;
-cursor: pointer;
-margin-right: 10px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
 }
 
 button:hover {
-opacity: 0.8;
+  opacity: 0.8;
 }
 .button-group {
-display: flex;
-justify-content: space-between;
-
+  display: flex;
+  justify-content: space-between;
 }
 
 .button-group button {
-padding: 8px 12px;
-border: none;
-border-radius: 4px;
-cursor: pointer;
-
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .button-group button[type="but"] {
@@ -300,48 +297,48 @@ cursor: pointer;
   }
 
 .button-group button[type="submit"] {
-background-color: #4CAF50;
-color: white;
+  background-color: #4CAF50;
+  color: white;
 
 }
 
 .button-group button[type="button"] {
-background-color: #f44336;
-color: white;
+  background-color: #f44336;
+  color: white;
 }
 
 .button-group {
-display: flex;
-gap: 10px;
+  display: flex;
+  gap: 10px;
 }
 
 .btn {
-padding: 10px 20px;
-font-size: 16px;
-border: none;
-border-radius: 5px;
-cursor: pointer;
-transition: background-color 0.3s, transform 0.2s;
-width: 100px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  width: 100px;
 }
 
 .add-btn {
-background-color: #4CAF50;
-color: white;
+  background-color: #4CAF50;
+  color: white;
 }
 
 .add-btn:hover {
-background-color: #45a049;
-transform: scale(1.05);
+  background-color: #45a049;
+  transform: scale(1.05);
 }
 
 .cancel-btn {
-background-color: #f44336;
-color: white;
+  background-color: #f44336;
+  color: white;
 }
 
 .cancel-btn:hover {
-background-color: #e53935;
-transform: scale(1.05);
+  background-color: #e53935;
+  transform: scale(1.05);
 }
 

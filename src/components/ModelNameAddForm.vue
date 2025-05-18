@@ -12,10 +12,10 @@
           <textarea
               v-model.lazy.trim="new_full_name"
               placeholder="Введите полное название"
-              required
+
           ></textarea>
 
-          <select class="styled-select" id="modelTypeSelect" v-model="selectedModel">
+          <select class="styled-select" id="modelTypeSelect" v-model="selectedModel" required>
             <option v-for="type in modelTypes" :key="type.id" :value="type.id">
               {{ type.name }}
             </option>

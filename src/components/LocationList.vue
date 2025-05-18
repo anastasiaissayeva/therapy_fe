@@ -3,7 +3,17 @@
       <h1 class="sidebar-title">
           Виды локализаций
       </h1>
-      <ul>
+      <input v-model="searchQuery" @input="onSearchChange" placeholder="Поиск..." />
+      <table class="styled-table" >
+        <thead>
+          <tr>
+              <th @click="sort('name')">Название</th>
+              <th @click="sort('short_name')">Сокращение</th>
+              <th @click="sort('note')">Заметка</th>
+              <th>Действия</th>
+          </tr>
+        </thead>
+        <tbody>
           <location-component
           v-for="item in items"
             :key="item.id"
@@ -13,8 +23,12 @@
             :note="item.note"
             @edit_item="edit_item"
             @delete_item="confirmDelete(item.id)" />
+        </tbody>
 
-      </ul>
+
+      </table>
+
+
       <button @click="toggleAddForm" class="add-button">
           Добавить вид локализаций
       </button>
@@ -52,13 +66,24 @@ export default {
           pendingDeleteId: null,
           deletedItem: null,
           showAddForm: false,
-
+          searchQuery: '',
+          sortKey: '',
+          sortOrder: 'asc',
       };
   },
   methods: {
       async getData() {
           try {
-              const response = await this.$http.get("location/",
+            const params = new URLSearchParams();
+
+          if (this.searchQuery) {
+              params.append('search', this.searchQuery);
+            }
+            if (this.sortKey) {
+              params.append('ordering', (this.sortOrder === 'desc' ? '-' : '') + this.sortKey);
+            }
+
+            const response = await this.$http.get(`location/?${params.toString()}`,
                   {
                       headers: {
                           authorization: `Bearer ${localStorage.access_token}`,
@@ -73,7 +98,18 @@ export default {
 
           }
       },
-
+      onSearchChange() {
+        this.getData();
+      },
+      sort(key) {
+          if (this.sortKey === key) {
+            this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+          } else {
+            this.sortKey = key;
+            this.sortOrder = 'asc';
+          }
+          this.getData();
+        },
       async editData(id, name,short_name,note) {
           try {
               await this.$http.put(`location/${id}/`, {

@@ -3,7 +3,16 @@
       <h1 class="sidebar-title">
           Виды лучевой терапии
       </h1>
-      <ul>
+      <input v-model="searchQuery" @input="onSearchChange" placeholder="Поиск..." />
+      <table class="styled-table" >
+        <thead>
+          <tr>
+              <th @click="sort('name')">Название</th>
+              <th @click="sort('note')">Заметка</th>
+              <th>Действия</th>
+          </tr>
+        </thead>
+        <tbody>
           <rad-type-component
           v-for="item in items"
             :key="item.id"
@@ -12,11 +21,13 @@
             :note="item.note"
             @edit_item="edit_item"
             @delete_item="confirmDelete(item.id)" />
+        </tbody>
+      </table>
 
-      </ul>
       <button @click="toggleAddForm" class="add-button">
           Добавить вид лучевой терапии
       </button>
+
       <rad-type-add-form v-if="showAddForm"
           @add_item="addItem"
           @cancel_add="cancelAdd" />
@@ -51,13 +62,24 @@ export default {
           pendingDeleteId: null, // Состояние для отслеживания элемента, ожидающего удаления
           deletedItem: null,
           showAddForm: false,
+          searchQuery: '',
+          sortKey: '',
+          sortOrder: 'asc',
 
       };
   },
   methods: {
       async getData() {
           try {
-              const response = await this.$http.get("radiation-therapy-type/",
+            const params = new URLSearchParams();
+              if (this.searchQuery) {
+                  params.append('search', this.searchQuery);
+              }
+              if (this.sortKey) {
+                  params.append('ordering', (this.sortOrder === 'desc' ? '-' : '') + this.sortKey);
+              }
+
+            const response = await this.$http.get(`radiation-therapy-type/?${params.toString()}`,
                   {
                       headers: {
                           authorization: `Bearer ${localStorage.access_token}`,
@@ -72,7 +94,18 @@ export default {
 
           }
       },
-
+      onSearchChange() {
+          this.getData();
+      },
+      sort(key) {
+          if (this.sortKey === key) {
+              this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+          } else {
+              this.sortKey = key;
+              this.sortOrder = 'asc';
+          }
+          this.getData();
+      },
       async editData(id, name,note) {
           try {
               await this.$http.put(`radiation-therapy-type/${id}/`, {
@@ -185,5 +218,18 @@ export default {
 </script>
 
 <style scoped>
+  .styled-table th:nth-child(1),
+  .styled-table td:nth-child(1) {
+    width: 30%;
+  }
 
+  .styled-table th:nth-child(2),
+  .styled-table td:nth-child(2) {
+    width: 60%;
+  }
+
+  .styled-table th:nth-child(4),
+  .styled-table td:nth-child(4) {
+    width: 10%;
+  }
 </style>

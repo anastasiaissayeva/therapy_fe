@@ -3,15 +3,15 @@
       <h1 class="sidebar-title">
         Результаты измерений
       </h1>
-
+      <input v-model="searchQuery" @input="onSearchChange" placeholder="Поиск..." />
       <table class="styled-table" >
         <thead>
           <tr>
-              <th>Модель</th>
-              <th>Параметр</th>
-              <th>Ед. изм.</th>
-              <th>Значение(Нижняя граница - Верхняя граница)</th>
-              <th>Заметка</th>
+              <th @click="sort('model_structure')">Модель</th>
+              <th >Параметр</th>
+              <th >Ед. изм.</th>
+              <th @click="sort('value')">Значение(Нижняя граница - Верхняя граница)</th>
+              <th @click="sort('note')">Заметка</th>
               <th>Действия</th>
           </tr>
         </thead>
@@ -76,6 +76,7 @@ export default {
           deletedItem: null,
           showAddForm: false,
           model_structures: [],
+          searchQuery: '',sortKey: '',sortOrder: 'asc',
       };
   },
   methods: {
@@ -92,7 +93,15 @@ export default {
     async getData() {
       await this.getModelStructures();
       try {
-              const response = await this.$http.get("result/",
+        const params = new URLSearchParams();
+
+        if (this.searchQuery) {
+            params.append('search', this.searchQuery);
+          }
+          if (this.sortKey) {
+            params.append('ordering', (this.sortOrder === 'desc' ? '-' : '') + this.sortKey);
+          }
+        const response = await this.$http.get(`result/?${params.toString()}`,
                   {headers: {authorization: `Bearer ${localStorage.access_token}`,},},
               );
               this.items = response.data;
@@ -103,7 +112,18 @@ export default {
               console.error("Ошибка при загрузке данных:", error);
           }
       },
-
+      onSearchChange() {
+        this.getData();
+      },
+      sort(key) {
+          if (this.sortKey === key) {
+            this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+          } else {
+            this.sortKey = key;
+            this.sortOrder = 'asc';
+          }
+          this.getData();
+        },
       async editData(id, value,upper_value,lower_value, name_model_structure_id, note) {
           try {
               const response = await this.$http.put(`result/${id}/`, {

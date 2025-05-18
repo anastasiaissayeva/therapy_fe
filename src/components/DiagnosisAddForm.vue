@@ -13,7 +13,7 @@
           <textarea
               v-model.lazy.trim="new_description"
               placeholder="Введите описание"
-              required
+              
           ></textarea>
 
           <textarea

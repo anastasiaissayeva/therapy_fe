@@ -1,6 +1,9 @@
 <template>
-  <div class="add-item-form" v-if="showForm" >
-      <form @submit.prevent="onAdd">
+  <div class="add-item-form" v-if="showForm">
+    <div class="modal-overlay">
+      <div class="modal">
+        <h2>Создать новый элемент</h2>
+    <form @submit.prevent="onAdd">
           <textarea
               v-model.lazy.trim="new_name"
               placeholder="Введите название вида лучевой терапии"
@@ -28,8 +31,12 @@
               </button>
           </div>
       </form>
+
+    </div>
+  </div>
   </div>
 </template>
+
 
 <script>
  export default{
@@ -58,7 +65,7 @@
           },
           resetForm() {
           this.new_name = '';
-          this.new_note = ''; 
+          this.new_note = '';
            }
       }
   };

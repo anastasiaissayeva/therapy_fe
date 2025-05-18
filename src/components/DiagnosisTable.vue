@@ -3,13 +3,13 @@
       <h1 class="sidebar-title">
           МКБ-10
       </h1>
-
+      <input v-model="searchQuery" @input="onSearchChange" placeholder="Поиск..." />
       <table class="styled-table" >
         <thead>
           <tr>
-              <th>Код</th>
-              <th>Описание</th>
-              <th>Заметка</th>
+              <th @click="sort('code')">Код МКБ-10</th>
+              <th @click="sort('description')">Описание диагноза</th>
+              <th @click="sort('note')">Заметка</th>
               <th>Действия</th>
           </tr>
         </thead>
@@ -67,13 +67,22 @@ export default {
           pendingDeleteId: null,
           deletedItem: null,
           showAddForm: false,
+          searchQuery: '',sortKey: '',sortOrder: 'asc',
       };
   },
   methods: {
     async getData() {
 
       try {
-              const response = await this.$http.get("diagnosis/",
+        const params = new URLSearchParams();
+
+        if (this.searchQuery) {
+            params.append('search', this.searchQuery);
+          }
+          if (this.sortKey) {
+            params.append('ordering', (this.sortOrder === 'desc' ? '-' : '') + this.sortKey);
+          }
+        const response = await this.$http.get(`diagnosis/?${params.toString()}`,
                   {headers: {authorization: `Bearer ${localStorage.access_token}`,},},
               );
               this.items = response.data;
@@ -83,6 +92,18 @@ export default {
               console.error("Ошибка при загрузке данных:", error);
           }
       },
+      onSearchChange() {
+        this.getData();
+      },
+      sort(key) {
+          if (this.sortKey === key) {
+            this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+          } else {
+            this.sortKey = key;
+            this.sortOrder = 'asc';
+          }
+          this.getData();
+        },
 
       async editData(id, code, description, note) {
           try {

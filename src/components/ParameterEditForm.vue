@@ -49,7 +49,7 @@ export default {
     },
     full_name: {
       type: String,
-      required: true,
+
     },
     name_unit: {
       type: String,
@@ -59,7 +59,7 @@ export default {
     },
     units: {
       type: Array,
-      required: true,
+      
     },
   },
   data() {

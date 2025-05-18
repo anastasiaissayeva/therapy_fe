@@ -1,36 +1,29 @@
 <template>
-  <li>
+  <div>
+  
+  <div class="modal-overlay">
+    <div class="modal">
+      <h2>Редактировать элемент</h2>
       <form id="EditForm">
-          <textarea
-              form="EditForm"
-              v-model.lazy.trim="new_name"
-              placeholder="Тип лучевой терапии"
-              rows="2" required/>
-          <textarea
-              form="EditForm"
-              v-model.lazy.trim="new_note"
-              placeholder="Заметка"
-              rows="4"
-              />
+        <textarea form="EditForm" v-model.lazy.trim="new_name" placeholder="Название" rows="2" required />
+        <textarea form="EditForm" v-model.lazy.trim="new_note" placeholder="Заметка" rows="4" />
       </form>
-      <button
-          type="button"
-          form="EditForm"
-          title="Сохранить"
-          @click="onSave"
-          ><img alt="logo" class="logo" src="@/assets/free-icon-save-2550221.png" width="20" height="20" />
-      </button>
+
+      <div class="button-group">
+        <button type="submit" form="EditForm" title="Сохранить" class="btn add-btn" @click="onSave">
+          Сохранить
+        </button>
+
+        <button type="button" form="EditForm" title="Отменить" class="btn cancel-btn"  @click="onCancel">
+          Отменить
+        </button>
+      </div>
 
 
-  <button
-          type="button"
-          form="EditForm"
-          title="Отменить"
-          @click="onCancel"
-          ><img alt="logo" class="logo" src="@/assets/free-icon-undo-7764412.png" width="20" height="20" />
-  </button>
-  </li>
 
+    </div>
+  </div>
+</div>
 </template>
 
 <script>

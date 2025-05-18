@@ -1,28 +1,31 @@
 <template>
   <div class="sidebar">
       <h1 class="sidebar-title">
-        Параметры
+        Набор данных
       </h1>
-      <input v-model="searchQuery" @input="onSearchChange" placeholder="Поиск..." />
+      <input v-model="searchQuery" @input="onSearchChange" placeholder="Поиск...(название модели,название источника)" />
       <table class="styled-table" >
         <thead>
           <tr>
-              <th @click="sort('name')">Параметр</th>
-              <th @click="sort('full_name')">Полное название параметра</th>
-              <th @click="sort('unit')">Ед. изм.</th>
+              <th @click="sort('result')">Результат</th>
+              <th @click="sort('сlinical_сase')">Клинический случай</th>
+              <th @click="sort('source')">Источник</th>
               <th @click="sort('note')">Заметка</th>
               <th>Действия</th>
           </tr>
         </thead>
         <tbody>
-          <parameter-component
+          <data-sets-component
           v-for="item in items"
             :key="item.id"
             :id='item.id'
-            :name="item.name"
-            :full_name="item.full_name"
-            :name_unit="item.name_unit"
-            :units="units"
+            :name_result="item.name_result"
+            :name_сlinical_сase="item.name_сlinical_сase"
+            :name_source="item.name_source"
+
+            :results="results"
+            :сlinical_сases="сlinical_сases"
+            :sources="sources"
             :note="item.note"
             @edit_item="edit_item"
             @delete_item="confirmDelete(item.id)" />
@@ -35,10 +38,12 @@
           Добавить
       </button>
 
-      <parameter-add-form v-if="showAddForm"
+      <data-sets-add-form v-if="showAddForm"
           @add_item="addItem"
           @cancel_add="cancelAdd"
-          :units="units"
+          :results="results"
+          :сlinical_сases="сlinical_сases"
+          :sources="sources"
           />
 
       <div v-if="pendingDeleteId !== null" class="confirmation">
@@ -58,12 +63,12 @@
 
 <script>
 
-import ParameterAddForm from './ParameterAddForm.vue';
-import ParameterComponent from './ParameterComponent.vue';
+import DataSetsAddForm from './DataSetsAddForm.vue';
+import DataSetsComponent from './DataSetsComponent.vue';
 export default {
   components: {
-    ParameterComponent,
-    ParameterAddForm,
+    DataSetsComponent,
+    DataSetsAddForm,
   },
   data() {
       return {
@@ -71,27 +76,51 @@ export default {
           pendingDeleteId: null,
           deletedItem: null,
           showAddForm: false,
-          units: [],
+          results: [],
+          сlinical_сases: [],
+          sources: [],
           searchQuery: '',sortKey: '',sortOrder: 'asc',
       };
   },
   methods: {
-    async getUnits() {
-      try {
-          const response = await this.$http.get("unit/", {
+    async getResults() {
+        try {
+
+
+            const response = await this.$http.get("result/", {
                 headers: { authorization: `Bearer ${localStorage.access_token}` },
             });
-            this.units = response.data;
-          } catch (error) {
+            this.results = response.data;
+        } catch (error) {
             console.log(error);
         }
-
+    },
+    async getClinical_сases() {
+        try {
+            const response = await this.$http.get("clinical-case/", {
+                headers: { authorization: `Bearer ${localStorage.access_token}` },
+            });
+            this.сlinical_сases = response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    },
+    async getSources() {
+        try {
+            const response = await this.$http.get("source/", {
+                headers: { authorization: `Bearer ${localStorage.access_token}` },
+            });
+            this.sources = response.data;
+        } catch (error) {
+            console.log(error);
+        }
     },
     async getData() {
-      await this.getUnits();
-
-        try {
-          const params = new URLSearchParams();
+      await this.getResults();
+      await this.getClinical_сases();
+      await this.getSources();
+      try {
+        const params = new URLSearchParams();
 
         if (this.searchQuery) {
             params.append('search', this.searchQuery);
@@ -99,7 +128,7 @@ export default {
           if (this.sortKey) {
             params.append('ordering', (this.sortOrder === 'desc' ? '-' : '') + this.sortKey);
           }
-        const response = await this.$http.get(`parameter/?${params.toString()}`,
+        const response = await this.$http.get(`dataset/?${params.toString()}`,
                   {headers: {authorization: `Bearer ${localStorage.access_token}`,},},
               );
               this.items = response.data;
@@ -122,12 +151,12 @@ export default {
           this.getData();
         },
 
-      async editData(id, name, full_name, name_unit_id, note) {
+      async editData(id,name_result_id,name_сlinical_сase_id,name_source_id, note) {
           try {
-              const response = await this.$http.put(`parameter/${id}/`, {
-                  name: name,
-                  full_name: full_name,
-                  unit: name_unit_id,
+              const response = await this.$http.put(`dataset/${id}/`, {
+                  result:name_result_id,
+                  сlinical_сase:name_сlinical_сase_id,
+                  source:name_source_id,
                   note: note
               }, {
                   headers: { authorization: `Bearer ${localStorage.access_token}` },
@@ -139,9 +168,9 @@ export default {
           }
       },
 
-      edit_item(id, new_name, new_full_name, new_name_unit_id, new_note) {
-        console.log('Editing item:', id, new_name, new_full_name, new_name_unit_id, new_note);
-        this.editData(id, new_name, new_full_name, new_name_unit_id, new_note);
+      edit_item(id, new_result_id,new_сlinical_сase_id,new_source_id, new_note) {
+        console.log('Editing item:', id, new_result_id,new_сlinical_сase_id,new_source_id, new_note);
+        this.editData(id, new_result_id,new_сlinical_сase_id,new_source_id, new_note);
         this.refresh();
       },
 
@@ -164,7 +193,7 @@ export default {
       async deleteData(id) {
           try {
               this.deletedItem = this.items.find(item => item.id === id);
-              await this.$http.delete("parameter/" + id + '/', {
+              await this.$http.delete("dataset/" + id + '/', {
                   headers: {
                       authorization: `Bearer ${localStorage.access_token}`,
                   },
@@ -196,13 +225,13 @@ export default {
 
           try {
               const newItem = {
-                  name: item.name,
-                  full_name: item.full_name,
-                  unit: item.name_unit,
-                  note: item.note,
+                result: item.name_result,
+                сlinical_сase: item.name_сlinical_сase,
+                source: item.name_source,
+                note: item.note,
               };
 
-              await this.$http.post("parameter/", newItem, {
+              await this.$http.post("dataset/", newItem, {
                   headers: {
                       authorization: `Bearer ${localStorage.access_token}`,
                   },

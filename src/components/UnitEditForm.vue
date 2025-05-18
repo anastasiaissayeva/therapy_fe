@@ -39,11 +39,11 @@ export default {
     },
     full_name: {
       type: String,
-      required: true,
+      
     },
     name: {
       type: String,
-      required: true,
+
     },
     note: {
       type: String,

@@ -12,7 +12,7 @@
           <textarea
               v-model.lazy.trim="new_full_name"
               placeholder="Введите полное название"
-              required
+
           ></textarea>
 
           <select class="styled-select" id="unitSelect" v-model="selectedUnit">
@@ -59,7 +59,7 @@ export default {
         },
         units: {
             type: Array,
-            required: true
+
         }
     },
     data() {
@@ -76,7 +76,7 @@ export default {
                 this.$emit('add_item', {
                     name: this.new_name,
                     full_name: this.new_full_name,
-                    name_unit: this.selectedUnit,
+                    name_unit: this.selectedUnit|| null,
                     note: this.new_note
                 });
                 this.resetForm();

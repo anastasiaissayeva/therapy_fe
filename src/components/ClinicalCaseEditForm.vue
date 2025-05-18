@@ -74,21 +74,21 @@
           <label for="tumorSelect">Опухоль</label>
           <select class="styled-select" id="tumorSelect" v-model="selectedTumor">
             <option v-for="tumor in tumor_arr" :key="tumor.id" :value="tumor.id">
-              {{ tumor.name }}
+              {{ tumor.short_name }}
             </option>
           </select>
 
           <label for="nodeSelect">Узел</label>
           <select class="styled-select" id="nodeSelect" v-model="selectedNode">
             <option v-for="node in node_arr" :key="node.id" :value="node.id">
-              {{ node.name }}
+              {{ node.short_name }}
             </option>
           </select>
 
           <label for="metastasisSelect">Метастазы</label>
           <select class="styled-select" id="metastasisSelect" v-model="selectedMetastasis">
             <option v-for="metastasis in metastasis_arr" :key="metastasis.id" :value="metastasis.id">
-              {{ metastasis.name }}
+              {{ metastasis.short_name }}
             </option>
           </select>
 
@@ -348,8 +348,10 @@ export default {
     const foundLocation = this.spec_location_arr.find(location => location.name === this.name_location);
     this.selectedLocation = foundLocation ? foundLocation.id : null;
 
-    const foundDiagnosis = this.diagnosis_arr.find(diagnosis => diagnosis.name === this.diagnosis && this.diagnosis);
+    const foundDiagnosis = this.diagnosis_arr.find(diagnosis => diagnosis.code === this.diagnosis);
     this.selectedDiagnosis = foundDiagnosis ? foundDiagnosis.id : null;
+
+    this.new_gender_display = this.gender_display;
 
     const foundComplication = this.complication_arr.find(complication => complication.name === this.name_complication);
     this.selectedComplication = foundComplication ? foundComplication.id : null;
@@ -363,13 +365,13 @@ export default {
     const foundRadiationTherapyType = this.radiation_therapy_type_arr.find(type => type.name === this.name_radiation_therapy_type);
     this.selectedRadiationTherapyType = foundRadiationTherapyType ? foundRadiationTherapyType.id : null;
 
-    const foundTumor = this.tumor_arr.find(tumor => tumor.name === this.name_tumor);
+    const foundTumor = this.tumor_arr.find(tumor => tumor.short_name === this.name_tumor);
     this.selectedTumor = foundTumor ? foundTumor.id : null;
 
-    const foundNode = this.node_arr.find(node => node.name === this.name_node);
+    const foundNode = this.node_arr.find(node => node.short_name === this.name_node);
     this.selectedNode = foundNode ? foundNode.id : null;
 
-    const foundMetastasis = this.metastasis_arr.find(metastasis => metastasis.name === this.name_metastasis);
+    const foundMetastasis = this.metastasis_arr.find(metastasis => metastasis.short_name === this.name_metastasis);
     this.selectedMetastasis = foundMetastasis ? foundMetastasis.id : null;
 
     const foundHistology = this.histology_arr.find(histology => histology.name === this.name_histology);
