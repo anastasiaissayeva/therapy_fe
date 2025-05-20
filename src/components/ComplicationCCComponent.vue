@@ -3,13 +3,8 @@
   <!--<RouterLink :to="'/petsbreedslist/' + id" class="p-name">{{ name }}</RouterLink> -->
   <tr v-if='!edit_mode'>
 
+    <td>{{ name_complication }}</td>
 
-
-    <td>{{ name_source }}</td>
-    <td style="word-break: break-word;"><a :href="url_source" target="_blank" class="highlight-link">{{ url_source
-        }}</a>
-    </td>
-    <td>{{ note }}</td>
     <td>
       <div class="button-group">
 
@@ -25,16 +20,16 @@
     </td>
   </tr>
 
-  <data-set-edit-form v-else :id='this.id' :name_clinical_case="this.name_clinical_case" :name_source="this.name_source"
-    :source="source" :note="this.note" @edit_item="edit_item" @cancel_edit="cancel_edit" />
+  <ComplicationCCEditForm v-else :id='this.id' :name_complication="this.name_complication" :complication="complication"
+    :note="this.note" @edit_item="edit_item" @cancel_edit="cancel_edit" />
 </template>
 
 
 <script>
-import DataSetEditForm from './DataSetEditForm.vue';
+import ComplicationCCEditForm from './ComplicationCCEditForm.vue';
 export default {
   components: {
-    DataSetEditForm
+    ComplicationCCEditForm
   },
   props: {
     id: {
@@ -46,18 +41,13 @@ export default {
       type: String,
 
     },
-    name_source: {
+    name_complication: {
       type: String,
 
     },
-    url_source: {
-      type: String,
 
-    },
-    note: {
-      type: String,
-    },
-    source: {
+
+    complication: {
       type: [Number],
       required: true
     },
@@ -71,8 +61,8 @@ export default {
     onEdit() {
       this.edit_mode = true;
     },
-    edit_item(id, name_clinical_case, source, note) {
-      this.$emit("edit_item", id, name_clinical_case, source, note);
+    edit_item(id, name_clinical_case, complication) {
+      this.$emit("edit_item", id, name_clinical_case, complication);
       this.edit_mode = false;
     },
     cancel_edit() {

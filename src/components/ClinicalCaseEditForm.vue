@@ -43,12 +43,7 @@
             </option>
           </select>
 
-          <label for="complicationSelect">Осложнение</label>
-          <select class="styled-select" id="complicationSelect" v-model="selectedComplication">
-            <option v-for="complication in complication_arr" :key="complication.id" :value="complication.id">
-              {{ complication.name }}
-            </option>
-          </select>
+
 
           <label for="stageSelect">Стадия</label>
           <select class="styled-select" id="stageSelect" v-model="selectedStage">
@@ -181,10 +176,7 @@ export default {
       required: true,
 
     },
-    name_complication: {
-      type: String,
 
-    },
     name_stage: {
       type: String,
 
@@ -241,10 +233,7 @@ export default {
       type: Array,
 
     },
-    complication_arr: {
-      type: Array,
 
-    },
     stage_arr: {
       type: Array,
 
@@ -283,7 +272,7 @@ export default {
       selectedLocation: null,
         selectedDiagnosis: null,
         selectedRefinedDiagnosis: null,
-        selectedComplication: null,
+
         selectedStage: null,
         selectedRiskGroup: null,
         selectedRadiationTherapyType: null,
@@ -323,7 +312,7 @@ export default {
                             this.selectedDiagnosis,
                             this.selectedRefinedDiagnosis,
                             this.selectedLocation,
-                            this.selectedComplication,
+
                             this.selectedStage,
                             this.selectedRiskGroup,
                             this.selectedRadiationTherapyType,
@@ -353,8 +342,7 @@ export default {
 
     this.new_gender_display = this.gender_display;
 
-    const foundComplication = this.complication_arr.find(complication => complication.name === this.name_complication);
-    this.selectedComplication = foundComplication ? foundComplication.id : null;
+    
 
     const foundStage = this.stage_arr.find(stage => stage.name === this.name_stage);
     this.selectedStage = foundStage ? foundStage.id : null;

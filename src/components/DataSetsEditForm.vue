@@ -1,24 +1,25 @@
 <template>
-<div>
+  <div>
 
     <div class="modal-overlay">
       <div class="modal">
         <h2>Редактировать элемент</h2>
         <form id="EditForm">
           <select class="styled-select" v-model="selected_result" required>
-              <option v-for="result in results" :key="result.id" :value="result.id">
-                  {{ result.name_model_structure }}{{ result.name_parameter }}={{ result.value }}({{ result.lower_value }}-{{ result.upper_value }}){{ result.name_unit }}
-              </option>
+            <option v-for="result in results" :key="result.id" :value="result.id">
+              {{ result.name_model_structure }}{{ result.name_parameter }}={{ result.value }}({{ result.lower_value
+              }}-{{ result.upper_value }}){{ result.name_unit }}
+            </option>
           </select>
-          <select class="styled-select" v-model="selected_сlinical_сase" >
-              <option v-for="сlinical_сase in сlinical_сases" :key="сlinical_сase.id" :value="сlinical_сase.id">
-                  {{ сlinical_сase.сlinical_сase_text }}
-              </option>
+          <select class="styled-select" v-model="selected_clinical_case">
+            <option v-for="clinical_case in clinical_cases" :key="clinical_case.id" :value="clinical_case.id">
+              {{ clinical_case.clinical_case_text }}
+            </option>
           </select>
-          <select class="styled-select" v-model="selected_source" >
-              <option v-for="source in sources" :key="source.id" :value="source.id">
-                  {{ source }}
-              </option>
+          <select class="styled-select" v-model="selected_source">
+            <option v-for="source in sources" :key="source.id" :value="source.id">
+              {{ source }}
+            </option>
           </select>
 
           <textarea form="EditForm" v-model.lazy.trim="new_note" placeholder="Заметка" rows="4" />
@@ -29,7 +30,7 @@
             Сохранить
           </button>
 
-          <button type="button" form="EditForm" title="Отменить" class="btn cancel-btn"  @click="onCancel">
+          <button type="button" form="EditForm" title="Отменить" class="btn cancel-btn" @click="onCancel">
             Отменить
           </button>
         </div>
@@ -53,7 +54,7 @@ export default {
     name_result: {
       type: String,
     },
-    name_сlinical_сase: {
+    name_clinical_case: {
       type: String,
     },
     name_source: {
@@ -62,16 +63,16 @@ export default {
     note: {
       type: String,
     },
-    results: {type: Array,},
-    сlinical_сases: {type: Array,},
-    sources: {type: Array,}
+    results: { type: Array, },
+    clinical_cases: { type: Array, },
+    sources: { type: Array, }
   },
   data() {
     return {
 
       new_note: this.note,
       selected_result: null,
-      selected_сlinical_сase: null,
+      selected_clinical_case: null,
       selected_source: null,
 
 
@@ -81,7 +82,7 @@ export default {
   methods: {
 
     onSave() {
-      this.$emit('edit_item', this.id, this.selected_result,this.selected_сlinical_сase, this.selected_source, this.new_note);
+      this.$emit('edit_item', this.id, this.selected_result, this.selected_clinical_case, this.selected_source, this.new_note);
 
     },
     onCancel() {
@@ -97,8 +98,8 @@ export default {
     // const found_result = this.results.find(result => result.name === this.name_result);
     // this.selected_result = found_result ? found_result.id : null;
 
-    // const found_сlinical_сase = this.сlinical_сases.find(сlinical_сase => сlinical_сase.name === this.name_сlinical_сase);
-    // this.selected_сlinical_сase = found_сlinical_сase ? found_сlinical_сase.id : null;
+    // const found_clinical_case = this.clinical_cases.find(clinical_case => clinical_case.name === this.name_clinical_case);
+    // this.selected_clinical_case = found_clinical_case ? found_clinical_case.id : null;
 
     // const found_source = this.sources.find(source => source === this.name_source);
     // this.selected_source = found_source ? found_source.id : null;
@@ -106,7 +107,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-
-</style>
+<style scoped></style>

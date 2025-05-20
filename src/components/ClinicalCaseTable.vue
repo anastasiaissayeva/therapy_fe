@@ -8,17 +8,17 @@
           :age_min="item.age_min" :age_max="item.age_max" :quantity="item.quantity"
           :gender_display="item.gender_display" :name_diagnosis="item.name_diagnosis"
           :refined_diagnosis="item.refined_diagnosis" :name_location="item.name_location"
-          :name_complication="item.name_complication" :name_stage="item.name_stage"
+           :name_stage="item.name_stage"
           :name_risk_group="item.name_risk_group" :name_radiation_therapy_type="item.name_radiation_therapy_type"
           :name_tumor="item.name_tumor" :name_node="item.name_node" :name_metastasis="item.name_metastasis"
           :name_histology="item.name_histology" :name_grade="item.name_grade"
           :number_of_fractions="item.number_of_fractions" :single_dose="item.single_dose"
           :treatment_duration="item.treatment_duration" :note="item.note" :diagnosis_arr="diagnosis_arr"
-          :spec_location_arr="spec_location_arr" :complication_arr="complication_arr" :stage_arr="stage_arr"
+          :spec_location_arr="spec_location_arr"  :stage_arr="stage_arr"
           :risk_group_arr="risk_group_arr" :radiation_therapy_type_arr="radiation_therapy_type_arr"
           :tumor_arr="tumor_arr" :node_arr="node_arr" :metastasis_arr="metastasis_arr" :histology_arr="histology_arr"
           :grade_arr="grade_arr" @edit_item="edit_item" @delete_item="confirmDelete(item.id)"
-          :text_location="item.text_location" :text_diagnosis="item.text_diagnosis" :text_complication="item.text_complication" :text_stage="item.text_stage" :text_risk_group="item.text_risk_group" :text_radiation_therapy_type="item.text_radiation_therapy_type" :text_tumor="item.text_tumor" :text_node="item.text_node" :text_metastasis="item.text_metastasis" :text_histology="item.text_histology" :text_grade="item.text_grade"
+          :text_location="item.text_location" :text_diagnosis="item.text_diagnosis"  :text_stage="item.text_stage" :text_risk_group="item.text_risk_group" :text_radiation_therapy_type="item.text_radiation_therapy_type" :text_tumor="item.text_tumor" :text_node="item.text_node" :text_metastasis="item.text_metastasis" :text_histology="item.text_histology" :text_grade="item.text_grade"
       />
     </div>
 
@@ -27,7 +27,7 @@
     </button>
 
     <clinical-case-add-form v-if="showAddForm" @add_item="addItem" @cancel_add="cancelAdd"
-      :diagnosis_arr="diagnosis_arr" :spec_location_arr="spec_location_arr" :complication_arr="complication_arr"
+      :diagnosis_arr="diagnosis_arr" :spec_location_arr="spec_location_arr"
       :stage_arr="stage_arr" :risk_group_arr="risk_group_arr" :radiation_therapy_type_arr="radiation_therapy_type_arr"
       :tumor_arr="tumor_arr" :node_arr="node_arr" :metastasis_arr="metastasis_arr" :histology_arr="histology_arr"
       :grade_arr="grade_arr" />
@@ -64,7 +64,7 @@ export default {
       showAddForm: false,
       diagnosis_arr: [],
       spec_location_arr: [],
-      complication_arr: [],
+
       stage_arr: [],
       risk_group_arr: [],
       radiation_therapy_type_arr: [],
@@ -100,17 +100,7 @@ export default {
       }
     },
 
-    async getComplication() {
-      try {
-        const response = await this.$http.get("complication/", {
-          headers: { authorization: `Bearer ${localStorage.access_token}` },
-        });
-        this.complication_arr = response.data;
-      } catch (error) {
-        console.log(error);
-        console.error("Ошибка при загрузке осложнений:", error);
-      }
-    },
+
 
     async getStage() {
       try {
@@ -210,7 +200,7 @@ export default {
     async getData() {
       await this.getDiagnosis();
       await this.getSpecLocation();
-      await this.getComplication();
+
       await this.getStage();
       await this.getRiskGroup();
       await this.getRadiationTherapyType();
@@ -231,7 +221,7 @@ export default {
       }
     },
 
-    async editData(id, age, age_min, age_max, quantity, gender_display, diagnosis, refined_diagnosis, name_location, name_complication, name_stage, name_risk_group, name_radiation_therapy_type, name_tumor, name_node, name_metastasis, name_histology, name_grade, number_of_fractions, single_dose, treatment_duration, note) {
+    async editData(id, age, age_min, age_max, quantity, gender_display, diagnosis, refined_diagnosis, name_location, name_stage, name_risk_group, name_radiation_therapy_type, name_tumor, name_node, name_metastasis, name_histology, name_grade, number_of_fractions, single_dose, treatment_duration, note) {
 
       const dataToSend = {
         age,
@@ -242,7 +232,6 @@ export default {
         diagnosis,
         refined_diagnosis,
         spec_location: name_location,
-        complication: name_complication,
         stage: name_stage,
         risk_group: name_risk_group,
         radiation_therapy_type: name_radiation_therapy_type,
@@ -269,9 +258,9 @@ export default {
         console.error('Ошибка при сохранении данных:', error.response ? error.response.data : error);
       }
     },
-    edit_item(id, new_age, new_age_min, new_age_max, new_quantity, new_gender_display, new_diagnosis, new_refined_diagnosis, new_name_location, new_name_complication, new_name_stage, new_name_risk_group, new_name_radiation_therapy_type, new_name_tumor, new_name_node, new_name_metastasis, new_name_histology, new_name_grade, new_number_of_fractions, new_single_dose, new_treatment_duration, new_note) {
+    edit_item(id, new_age, new_age_min, new_age_max, new_quantity, new_gender_display, new_diagnosis, new_refined_diagnosis, new_name_location,  new_name_stage, new_name_risk_group, new_name_radiation_therapy_type, new_name_tumor, new_name_node, new_name_metastasis, new_name_histology, new_name_grade, new_number_of_fractions, new_single_dose, new_treatment_duration, new_note) {
 
-      this.editData(id, new_age, new_age_min, new_age_max, new_quantity, new_gender_display, new_diagnosis, new_refined_diagnosis, new_name_location, new_name_complication, new_name_stage, new_name_risk_group, new_name_radiation_therapy_type, new_name_tumor, new_name_node, new_name_metastasis, new_name_histology, new_name_grade, new_number_of_fractions, new_single_dose, new_treatment_duration, new_note);
+      this.editData(id, new_age, new_age_min, new_age_max, new_quantity, new_gender_display, new_diagnosis, new_refined_diagnosis, new_name_location, new_name_stage, new_name_risk_group, new_name_radiation_therapy_type, new_name_tumor, new_name_node, new_name_metastasis, new_name_histology, new_name_grade, new_number_of_fractions, new_single_dose, new_treatment_duration, new_note);
       this.refresh();
     },
 
@@ -333,7 +322,6 @@ export default {
             ...(item.age !== null && { age: item.age }),
             ...(item.age_min !== null && { age_min: item.age_min }),
             ...(item.age_max !== null && { age_max: item.age_max }),
-            ...(item.complication !== null && { complication: item.complication }),
             ...(item.diagnosis !== null && { diagnosis: item.diagnosis }),
             ...(item.gender !== null && { gender: item.gender_display }),
             ...(item.grade !== null && { grade: item.grade }),

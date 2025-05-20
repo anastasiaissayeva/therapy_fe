@@ -6,14 +6,14 @@
         <h2>Редактировать элемент</h2>
         <form id="EditForm">
 
-          <input type="text" v-model="searchQuery" placeholder="Поиск источника..." class="search-input" />
-          <select class="styled-select" v-model="selected_source">
-            <option v-for="Source in filteredSources" :key="Source.id" :value="Source.id">
-              {{ Source.name }}
+          <input type="text" v-model="searchQuery" placeholder="Поиск осложнения..." class="search-input" />
+          <select class="styled-select" v-model="selected_complication">
+            <option v-for="Сomplication in filteredСomplications" :key="Сomplication.id" :value="Сomplication.id">
+              {{ Сomplication.name }}
             </option>
           </select>
 
-          <textarea form="EditForm" v-model.lazy.trim="new_note" placeholder="Заметка" rows="4" />
+
         </form>
 
         <div class="button-group">
@@ -46,42 +46,40 @@ export default {
     name_clinical_case: {
       type: String,
     },
-    name_source: {
+    name_complication: {
       type: String,
     },
-    note: {
-      type: String,
-    },
-    model_structure: { type: Number },
+
+
 
 
     clinical_cases: { type: Array, },
-    sources: { type: Array, },
-    source: { type: Number },
+    complications: { type: Array, },
+    complication: { type: Number },
   },
   data() {
     return {
       searchQuery: '',
-      new_note: this.note,
+
 
       selected_clinical_case: null,
-      selected_source: null,
+      selected_complication: null,
 
 
     };
   },
   emits: ['edit_item', 'cancel_edit', 'delete_item'],
   computed: {
-    filteredSources() {
-      if (!this.searchQuery) return this.sources;
+    filteredСomplications() {
+      if (!this.searchQuery) return this.complications;
       const q = this.searchQuery.toLowerCase();
-      return this.sources.filter(source => source.name.toLowerCase().includes(q));
+      return this.complications.filter(complication => complication.name.toLowerCase().includes(q));
     },
   },
   methods: {
 
     onSave() {
-      this.$emit('edit_item', this.id, this.selected_clinical_case, this.selected_source, this.new_note);
+      this.$emit('edit_item', this.id, this.selected_clinical_case, this.selected_complication,);
 
     },
     onCancel() {
@@ -92,8 +90,8 @@ export default {
 
   mounted() {
 
-    const found_source = this.sources.find(sr => sr.id === this.source);
-    this.selected_source = found_source ? found_source.id : null;
+    const found_complication = this.complications.find(sr => sr.id === this.complication);
+    this.selected_complication = found_complication ? found_complication.id : null;
   }
 };
 </script>

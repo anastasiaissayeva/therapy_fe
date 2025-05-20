@@ -1,37 +1,32 @@
 <template>
   <div class="sidebar">
     <h1 class="sidebar-title">
-      Результаты измерений
+      Осложнения
     </h1>
     <input v-model="searchQuery" @input="onSearchChange" placeholder="Поиск..." />
     <table class="styled-table">
       <thead>
         <tr>
-          <th @click="sort('model_structure')">Модель</th>
-          <th>Параметр</th>
-          <th>Ед. изм.</th>
-          <th @click="sort('value')">Значение(Нижняя граница - Верхняя граница)</th>
-          <th @click="sort('note')">Заметка</th>
+          <th @click="sort('complication')">Осложнение</th>
           <th>Действия</th>
         </tr>
       </thead>
       <tbody>
-        <result-component v-for="item in items" :key="item.id" :id='item.id' :value="item.value"
-          :upper_value="item.upper_value" :lower_value="item.lower_value"
-          :name_model_structure="item.name_model_structure" :name_parameter="item.name_parameter"
-          :name_unit="item.name_unit" :note="item.note" :model_structures="modelStructures" :data_set="item.data_set"
-          :data_sets="dataSets" :model_structure="item.model_structure" @edit_item="edit_item"
+        <ComplicationCCComponent v-for="item in items" :key="item.id" :id='item.id'
+          :name_complication="item.name_complication" :clinical_case_id="selected_clinical_case_id"
+          :complications="complications" :complication="item.complication" @edit_item="edit_item"
           @delete_item="confirmDelete(item.id)" />
       </tbody>
+
+
     </table>
 
     <button @click="toggleAddForm" class="add-button">
       Добавить
     </button>
 
-    <result-add-form v-if="showAddForm" :selected_clinical_case_id="selected_clinical_case_id"
-      :data_set_id="currentDataSetId" @add_item="addItem" @cancel_add="cancelAdd" :model_structures="modelStructures"
-      :data_sets="dataSets" />
+    <ComplicationCCAddForm v-if="showAddForm" @add_item="addItem" @cancel_add="cancelAdd"
+      :clinical_case_id="selected_clinical_case_id" :clinical_cases="clinical_cases" :complications="complications" />
 
     <div v-if="pendingDeleteId !== null" class="confirmation">
       <div class="confirmation-content">
@@ -42,25 +37,26 @@
         </div>
       </div>
     </div>
+
+
+
   </div>
 </template>
 
-
 <script>
 
-import ResultAddForm from './ResultAddForm.vue';
-import ResultComponent from './ResultComponent.vue';
+import ComplicationCCAddForm from './ComplicationCCAddForm.vue';
+import ComplicationCCComponent from './ComplicationCCComponent.vue';
 export default {
   components: {
-    ResultComponent,
-    ResultAddForm,
+    ComplicationCCComponent,
+    ComplicationCCAddForm,
   },
   props: {
     selected_clinical_case_id: {
       type: Number,
       required: false
     },
-
 
   },
   data() {
@@ -69,40 +65,38 @@ export default {
       pendingDeleteId: null,
       deletedItem: null,
       showAddForm: false,
+
+      clinical_cases: [],
+      complications: [],
       searchQuery: '', sortKey: '', sortOrder: 'asc',
-      currentDataSetId: this.selectedDataSetId,
-      dataSets: [],
     };
   },
   methods: {
-    async getDataSets() {
+
+    // async getClinical_сases() {
+    //     try {
+    //         const response = await this.$http.get("clinical-case/", {
+    //             headers: { authorization: `Bearer ${localStorage.access_token}` },
+    //         });
+    //         this.clinical_cases = response.data;
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // },
+    async getСomplications() {
       try {
-        const response = await this.$http.get("dataset/", {
+        const response = await this.$http.get("complication/", {
           headers: { authorization: `Bearer ${localStorage.access_token}` },
         });
-
-        // Сохраняем все наборы данных
-        const allDataSets = response.data;
-
-        // Фильтруем наборы данных по текущему клиническому случаю
-        this.dataSets = allDataSets.filter(dataSet => dataSet.clinical_case === this.selected_clinical_case_id);
-      } catch (error) {
-        console.error("Ошибка при загрузке наборов данных:", error);
-      }
-    },
-    async getModelStructures() {
-      try {
-        const response = await this.$http.get("model-structure/", {
-          headers: { authorization: `Bearer ${localStorage.access_token}` },
-        });
-        this.modelStructures = response.data;
+        this.complications = response.data;
       } catch (error) {
         console.log(error);
       }
     },
     async getData() {
-      await this.getDataSets();
-      await this.getModelStructures();
+
+      // await this.getClinical_сases();
+      await this.getСomplications();
       try {
         const params = new URLSearchParams();
 
@@ -115,14 +109,12 @@ export default {
         if (this.selected_clinical_case_id) {
           params.append('clinical_case', this.selected_clinical_case_id);
         }
-
-        const response = await this.$http.get(`result/?${params.toString()}`,
+        const response = await this.$http.get(`сlinical-сase-сomplication/?${params.toString()}`,
           { headers: { authorization: `Bearer ${localStorage.access_token}`, }, },
         );
         this.items = response.data;
       }
       catch (error) {
-
         console.log(error);
         console.error("Ошибка при загрузке данных:", error);
       }
@@ -139,15 +131,14 @@ export default {
       }
       this.getData();
     },
-    async editData(id, value, upper_value, lower_value, model_structure, note, data_set) {
+
+    async editData(id, name_clinical_case_id, complication, note) {
       try {
-        const response = await this.$http.put(`result/${id}/`, {
-          value,
-          upper_value,
-          lower_value,
-          model_structure,
-          note,
-          data_set,
+        const response = await this.$http.put(`сlinical-сase-сomplication/${id}/`, {
+
+          clinical_case: name_clinical_case_id,
+          complication: complication,
+          note: note
         }, {
           headers: { authorization: `Bearer ${localStorage.access_token}` },
         });
@@ -158,9 +149,9 @@ export default {
       }
     },
 
-    edit_item(id, new_value, new_upper_value, new_lower_value, new_model_structure_id, new_note, data_set) {
-      console.log('Editing item:', id, new_value, new_upper_value, new_lower_value, new_model_structure_id, new_note, data_set);
-      this.editData(id, new_value, new_upper_value, new_lower_value, new_model_structure_id, new_note, data_set);
+    edit_item(id, new_clinical_case_id, new_complication_id) {
+      console.log('Editing item:', id, new_clinical_case_id, new_complication_id,);
+      this.editData(id, new_clinical_case_id, new_complication_id,);
       this.refresh();
     },
 
@@ -183,7 +174,7 @@ export default {
     async deleteData(id) {
       try {
         this.deletedItem = this.items.find(item => item.id === id);
-        await this.$http.delete("result/" + id + '/', {
+        await this.$http.delete("dataset/" + id + '/', {
           headers: {
             authorization: `Bearer ${localStorage.access_token}`,
           },
@@ -214,19 +205,14 @@ export default {
     async addItem(item) {
 
       try {
-
         const newItem = {
-          ...(item.value !== null && { value: item.value }),
-          ...(item.upper_value !== null && { upper_value: item.upper_value }),
-          ...(item.lower_value !== null && { lower_value: item.lower_value }),
 
-          model_structure: item.name_model_structure,
-          clinical_case: item.clinical_case,
-          data_set: item.data_set,
-          ...(item.note !== "" && { note: item.note }),
+          clinical_case: this.selected_clinical_case_id,
+          complication: item.name_complication,
+
         };
-        console.log("Отправляемые данные:", newItem);
-        await this.$http.post("result/", newItem, {
+
+        await this.$http.post("сlinical-сase-сomplication/", newItem, {
           headers: {
             authorization: `Bearer ${localStorage.access_token}`,
           },
@@ -234,7 +220,7 @@ export default {
         this.getData();
         this.showAddForm = false;
       } catch (error) {
-        console.error("Ошибка при добавлении:", error.response ? error.response.data : error.message);
+        console.error("Ошибка при добавлении:", error);
       }
     },
     cancelAdd() {
@@ -266,26 +252,16 @@ export default {
 <style scoped>
 .styled-table th:nth-child(1),
 .styled-table td:nth-child(1) {
-  width: 20%;
+  width: 80%;
 }
 
 .styled-table th:nth-child(2),
 .styled-table td:nth-child(2) {
-  width: 20%;
+  width: 10%;
 }
 
 .styled-table th:nth-child(3),
 .styled-table td:nth-child(3) {
-  width: 15%;
-}
-
-.styled-table th:nth-child(4),
-.styled-table td:nth-child(4) {
-  width: 30%;
-}
-
-.styled-table th:nth-child(5),
-.styled-table td:nth-child(5) {
-  width: 20%;
+  width: 10%;
 }
 </style>

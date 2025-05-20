@@ -42,12 +42,7 @@
             </option>
           </select>
 
-          <label for="complicationSelect">Осложнение</label>
-          <select class="styled-select" id="complicationSelect" v-model="selectedComplication">
-            <option v-for="complication in complication_arr" :key="complication.id" :value="complication.id">
-              {{ complication.name }}
-            </option>
-          </select>
+
 
           <label for="stageSelect">Стадия</label>
           <select class="styled-select" id="stageSelect" v-model="selectedStage">
@@ -157,10 +152,7 @@ export default {
           type: Array,
 
         },
-        complication_arr: {
-          type: Array,
 
-        },
         stage_arr: {
           type: Array,
 
@@ -204,7 +196,7 @@ export default {
           new_refined_diagnosis: '',
           selectedLocation: null,
           selectedDiagnosis: null,
-          selectedComplication: null,
+
           selectedStage: null,
           selectedRiskGroup: null,
           selectedRadiationTherapyType: null,
@@ -230,7 +222,7 @@ export default {
                 diagnosis: this.selectedDiagnosis || null,
                 refined_diagnosis: this.new_refined_diagnosis || null,
                 spec_location: this.selectedLocation || null,
-                complication: this.selectedComplication || null,
+
                 stage: this.selectedStage || null,
                 risk_group: this.selectedRiskGroup || null,
                 radiation_therapy_type: this.selectedRadiationTherapyType || null,
@@ -268,7 +260,7 @@ export default {
           this.new_refined_diagnosis = '';
           this.selectedLocation = null;
           this.selectedDiagnosis = null;
-          this.selectedComplication = null;
+          
           this.selectedStage = null;
           this.selectedRiskGroup = null;
           this.selectedRadiationTherapyType = null;

@@ -1,13 +1,13 @@
 <template>
 
-    <!--<RouterLink :to="'/petsbreedslist/' + id" class="p-name">{{ name }}</RouterLink> -->
-    <tr v-if='!edit_mode'>
+  <!--<RouterLink :to="'/petsbreedslist/' + id" class="p-name">{{ name }}</RouterLink> -->
+  <tr v-if='!edit_mode'>
 
-      <td>{{ name_result }}</td>
-      <td>{{ name_сlinical_сase }}</td>
-      <td>{{ name_source }}</td>
-      <td>{{ note }}</td>
-      <td>
+    <td>{{ name_result }}</td>
+    <td>{{ name_clinical_case }}</td>
+    <td>{{ name_source }}</td>
+    <td>{{ note }}</td>
+    <td>
       <div class="button-group">
 
         <button type="but" title="Редактировать" @click="onEdit" class="edit-button">
@@ -20,16 +20,10 @@
 
       </div>
     </td>
-    </tr>
+  </tr>
 
-  <data-set-edit-form v-else
-  :id='this.id'
-  :name_result="this.name_result"
-  :name_сlinical_сase="this.name_сlinical_сase"
-  :name_source="this.name_source"
-  :note="this.note"
-  @edit_item="edit_item"
-  @cancel_edit="cancel_edit" />
+  <data-set-edit-form v-else :id='this.id' :name_result="this.name_result" :name_clinical_case="this.name_clinical_case"
+    :name_source="this.name_source" :note="this.note" @edit_item="edit_item" @cancel_edit="cancel_edit" />
 </template>
 
 
@@ -48,7 +42,7 @@ export default {
       type: String,
       required: true,
     },
-    name_сlinical_сase: {
+    name_clinical_case: {
       type: String,
 
     },
@@ -69,8 +63,8 @@ export default {
     onEdit() {
       this.edit_mode = true;
     },
-    edit_item(id, name_result,name_сlinical_сase,name_source,note) {
-      this.$emit("edit_item", id,name_result,name_сlinical_сase,name_source,note);
+    edit_item(id, name_result, name_clinical_case, name_source, note) {
+      this.$emit("edit_item", id, name_result, name_clinical_case, name_source, note);
       this.edit_mode = false;
     },
     cancel_edit() {
@@ -83,6 +77,4 @@ export default {
 };
 </script>
 
-<style>
-
-</style>
+<style></style>
