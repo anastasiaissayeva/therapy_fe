@@ -37,14 +37,18 @@ const router = createRouter({
       },
 
       {
-      path: '/login',
-      name: 'login',
-      component: LoginForm,
+        path: '/login',
+        name: 'login',
+        components: {
+          user: LoginForm
+        }
     },
     {
       path: '/logout',
       name: 'logout',
-      component: LogOutForm,
+      components: {
+        user: LogOutForm 
+      }
     },
     {
       path: '/radtypelist',

@@ -281,7 +281,7 @@ button:hover {
 }
 .button-group {
   display: flex;
-  flex-wrap: wrap;
+
   justify-content: space-between;
 }
 
@@ -339,5 +339,183 @@ button:hover {
 .cancel-btn:hover {
   background-color: #e53935;
   transform: scale(1.05);
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+  :root {
+    font-size: 14px; /* Уменьшаем базовый размер шрифта */
+  }
+
+  body {
+    padding: 0;
+    overflow-x: hidden; /* Запрещаем горизонтальный скролл */
+  }
+
+  /* Шапка */
+  .header-content {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .project-info {
+    margin-bottom: 10px;
+  }
+
+  .app-title {
+    font-size: 1.2rem;
+  }
+
+  /* Навигация */
+  .main-nav {
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .nav-item {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+
+  /* Боковая панель */
+  .sidebar {
+    width: 100%;
+    padding: 15px;
+    position: static;
+    margin-bottom: 15px;
+  }
+
+  .sidebar-title {
+    font-size: 1.5rem;
+  }
+
+  /* Таблицы */
+  .styled-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  /* Формы */
+  input, textarea, .styled-select {
+    padding: 10px;
+    font-size: 1rem;
+  }
+
+  /* Кнопки */
+  .button, .add-button, .confirm-button, .cancel-button {
+    padding: 12px 15px;
+    font-size: 0.9rem;
+    width: 100%;
+    max-width: none;
+  }
+
+  .button-group {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .button-group button {
+    width: 100%;
+  }
+
+  /* Модальные окна */
+  .modal {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .confirmation {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .confirmation-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .confirm-button, .cancel-button {
+    margin: 0;
+    width: 100%;
+  }
+
+  /* Элементы списка */
+  .p-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .p-note {
+    margin-left: 0;
+  }
+
+
+
+}
+
+/* Особые стили для очень маленьких экранов */
+@media (max-width: 480px) {
+  :root {
+    font-size: 13px;
+  }
+
+  .app-title {
+    font-size: 1rem;
+  }
+
+  .sidebar-title {
+    font-size: 1.3rem;
+  }
+
+  .button, .add-button {
+    padding: 10px 12px;
+  }
+
+
+}
+
+/* Улучшения для тач-устройств */
+@media (hover: none) {
+  .button, .nav-item, button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .button:hover, .nav-item:hover, button:hover {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) and (orientation: portrait) {
+  overlay-text {
+    font-size: 2rem; /* Крупный размер для заголовка */
+    top: 15%;
+    right: 5%;
+  }
+
+  overlay-text1 {
+    font-size: 1.2rem; /* Крупный размер для подзаголовка */
+    top: 30%;
+    right: 5%;
+    line-height: 1.4; /* Увеличиваем межстрочный интервал */
+  }
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+  overlay-text {
+    font-size: 1.8rem;
+    top: 10%;
+    right: 5%;
+  }
+
+  overlay-text1 {
+    font-size: 1.1rem;
+    top: 30%;
+    right: 5%;
+    max-width: 80%; /* Ограничиваем ширину для лучшей читаемости */
+  }
 }
 
